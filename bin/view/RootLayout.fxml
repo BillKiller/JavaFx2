@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane fx:id="rootLayout" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RootLayoutController">
+   <center>
+      <ScrollPane prefHeight="875.0" prefWidth="769.0" BorderPane.alignment="CENTER">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1000.0">
+               <children>
+                  <Button fx:id="myButton" layoutX="208.0" layoutY="253.0" mnemonicParsing="false" onAction="#clickButton" prefHeight="64.0" prefWidth="171.0" text="点我？？？" />
+                  <TextField fx:id="myTextField" layoutX="193.0" layoutY="324.0" promptText="不敢点吗？" />
+               </children>
+               <effect>
+                  <Blend />
+               </effect>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </center>
+   <left>
+      <AnchorPane blendMode="SRC_ATOP" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="-3.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="          Shape           " textAlignment="CENTER" underline="true" wrappingWidth="205.30029296875" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-2.0">
+               <effect>
+                  <Lighting bumpInput="$null">
+                     <light>
+                        <Light.Distant color="#1cc32a" />
+                     </light>
+                  </Lighting>
+               </effect>
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Text>
+            <ScrollBar layoutX="186.0" layoutY="22.0" orientation="VERTICAL" prefHeight="852.0" prefWidth="14.0" />
+            <VBox layoutX="27.0" layoutY="32.0" spacing="20.0">
+               <children>
+                  <ImageView fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../../studyFX/image/decision.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../../studyFX/image/prepare.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="rectangleImage" fitHeight="98.0" fitWidth="147.0" onMouseClicked="#clickRectangle" onMouseEntered="#enteredRectangle">
+                     <image>
+                        <Image url="@../../../studyFX/image/process.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="beg" fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../../studyFX/image/data.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../../studyFX/image/start.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../../studyFX/image/predefined.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../../studyFX/image/document.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <right>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="37.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="..\..\..\studyFX\image\prepare.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="5.0" layoutY="192.0" prefHeight="15.0" prefWidth="187.0" text="Size :                      *               " />
+                  <TextField layoutX="64.0" layoutY="188.0" prefHeight="23.0" prefWidth="43.0" promptText="猪" />
+                  <ChoiceBox layoutX="58.0" layoutY="236.0" prefHeight="23.0" prefWidth="128.0" />
+                  <Label layoutX="6.0" layoutY="240.0" text="Color :" />
+                  <TextField layoutX="138.0" layoutY="188.0" prefHeight="23.0" prefWidth="43.0" promptText="展标" />
+                  <ChoiceBox layoutX="58.0" layoutY="286.0" prefHeight="23.0" prefWidth="128.0" />
+                  <Label layoutX="6.0" layoutY="290.0" text="Type :" />
+                  <TextArea layoutX="7.0" layoutY="369.0" prefHeight="91.0" prefWidth="188.0" promptText="Please start your performance" />
+                  <Label layoutX="6.0" layoutY="348.0" text="Text :" />
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </right>
+</BorderPane>
