@@ -45,37 +45,37 @@
                <children>
                   <ImageView fitHeight="98.0" fitWidth="147.0">
                      <image>
-                        <Image url="@../../../studyFX/image/decision.png" />
+                        <Image url="@../../image/decision.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="98.0" fitWidth="147.0">
                      <image>
-                        <Image url="@../../../studyFX/image/prepare.png" />
+                        <Image url="@../../image/prepare.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="rectangleImage" fitHeight="98.0" fitWidth="147.0" onMouseClicked="#clickRectangle" onMouseEntered="#enteredRectangle">
                      <image>
-                        <Image url="@../../../studyFX/image/process.png" />
+                        <Image url="@../../image/process.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="beg" fitHeight="98.0" fitWidth="147.0">
                      <image>
-                        <Image url="@../../../studyFX/image/data.png" />
+                        <Image url="@../../image/data.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="98.0" fitWidth="147.0">
                      <image>
-                        <Image url="@../../../studyFX/image/start.png" />
+                        <Image url="@../../image/start.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="98.0" fitWidth="147.0">
                      <image>
-                        <Image url="@../../../studyFX/image/predefined.png" />
+                        <Image url="@../../image/predefined.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="98.0" fitWidth="147.0">
                      <image>
-                        <Image url="@../../../studyFX/image/document.png" />
+                        <Image url="@../../image/document.png" />
                      </image>
                   </ImageView>
                </children>
@@ -111,7 +111,7 @@
                <children>
                   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="37.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="..\..\..\studyFX\image\prepare.png" />
+                        <Image url="@../../image/prepare.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="5.0" layoutY="192.0" prefHeight="15.0" prefWidth="187.0" text="Size :                      *               " />
