@@ -6,8 +6,8 @@ import javafx.scene.shape.Circle;
 public class MyCircle extends MyShape {
 	private Circle circle;
 	private double radius;
-	public MyCircle(){
-		this(500,500,50);
+	public MyCircle(double x,double y){
+		this(x,y,100);
 	}
 	public MyCircle(double x,double y,double radius){
 			super(x,y,radius,radius);

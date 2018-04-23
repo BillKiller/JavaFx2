@@ -6,20 +6,18 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import model.MyCircle;
 import model.MyRectangle;
+import model.RoundRectangle;
 
 public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-    private FlowPane attributeBox;
+    
     
     @Override
     public void start(Stage primaryStage) {
@@ -27,10 +25,12 @@ public class MainApp extends Application {
         this.primaryStage.setTitle("Flow Graph Editor");
 
         initRootLayout();
-        MyCircle myCircle = new MyCircle();
-        myCircle.getPane(rootLayout);
-		MyRectangle myRectangle=new MyRectangle(500,500,100,200);
-		myRectangle.getPane(rootLayout);
+//        MyCircle myCircle = new MyCircle();
+//        myCircle.getPane(rootLayout);
+//		MyRectangle myRectangle=new MyRectangle(500,500,200,100);
+//		myRectangle.getPane(rootLayout);
+//		RoundRectangle roundRectangle=new RoundRectangle(500,500,200,100);
+//		roundRectangle.getPane(rootLayout);
     }
 
     /**

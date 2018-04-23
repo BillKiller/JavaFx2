@@ -54,7 +54,6 @@ public abstract class MyShape implements resizeAble {
 		pane.setCursor(Cursor.CLOSED_HAND);
 		pane.getChildren().add(shape);
 		addListener();
-
 	}
 
 	public Editer getEditer() {
@@ -146,7 +145,7 @@ public abstract class MyShape implements resizeAble {
 
 	public void setOnDrag() {
 		shape.setOnMouseDragged(e -> {
-			Move(e.getSceneX(), e.getSceneY());
+			Move(e.getX(), e.getY());
 			editer.show(x, y);
 			editer.disapperCircle();
 			isSelected = false;
