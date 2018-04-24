@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane fx:id="rootLayout" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RootLayoutController">
+   <center>
+      <ScrollPane prefHeight="875.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <content>
+            <AnchorPane fx:id="DrawingArea" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1000.0">
+               <effect>
+                  <Blend />
+               </effect>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </center>
+   <left>
+      <AnchorPane fx:id="ShapeArea" blendMode="SRC_ATOP" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="-3.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="          Shape           " textAlignment="CENTER" underline="true" wrappingWidth="205.30029296875" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-2.0">
+               <effect>
+                  <Lighting bumpInput="$null">
+                     <light>
+                        <Light.Distant color="#1cc32a" />
+                     </light>
+                  </Lighting>
+               </effect>
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Text>
+            <VBox layoutX="27.0" layoutY="32.0" spacing="20.0">
+               <children>
+                  <ImageView fx:id="RoundedRectangleImage" fitHeight="98.0" fitWidth="153.0">
+                     <image>
+                        <Image url="@../../image/start.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="RectangleImage" fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../image/process.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="PrismImage" fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../image/decision.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="ParallelogramImage" fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../image/data.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="CircularImage" fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../image/prepare.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="CurvedRectangularImage" fitHeight="98.0" fitWidth="147.0">
+                     <image>
+                        <Image url="@../../image/document.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="文件">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="格式">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="帮助">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <right>
+      <AnchorPane prefHeight="868.0" prefWidth="237.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox layoutX="29.0" layoutY="37.0" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="37.0">
+               <children>
+                  <ImageView fitHeight="123.0" fitWidth="184.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/prepare.png" />
+                     </image>
+                  </ImageView>
+                  <HBox>
+                     <children>
+                        <Label layoutX="5.0" layoutY="192.0" prefHeight="20.0" prefWidth="44.0" text="Size  " />
+                        <Label prefHeight="20.0" prefWidth="26.0" text="X : " />
+                        <TextField layoutX="64.0" layoutY="188.0" prefHeight="23.0" prefWidth="43.0" />
+                        <Label prefHeight="20.0" prefWidth="32.0" text=" Y :  " />
+                        <TextField prefHeight="23.0" prefWidth="43.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="0.0" prefWidth="47.0" text="Color" />
+                        <ChoiceBox prefHeight="23.0" prefWidth="128.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="48.0" text="Type  " />
+                        <ChoiceBox prefHeight="23.0" prefWidth="128.0" />
+                     </children>
+                  </HBox>
+                  <VBox prefHeight="200.0" prefWidth="176.0" spacing="100.0" />
+               </children>
+            </VBox>
+            <Label layoutX="29.0" layoutY="330.0" text="Text :" />
+            <TextArea layoutX="29.0" layoutY="359.0" prefHeight="233.0" prefWidth="188.0" promptText="Describe your graphics" />
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
