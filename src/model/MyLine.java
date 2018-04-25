@@ -2,6 +2,7 @@ package model;
 
 import javafx.scene.Cursor;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
@@ -15,16 +16,22 @@ public class MyLine extends Line {
 	//Shape
 	private Polygon triangle;
 	private Line line;
+	private Circle circle;
 	//状态变量
 	private  boolean isEdited = false;
 	private boolean isOnTheLine = false;
+
 	//
 	public MyLine(double startX,double startY,double endX,double endY){
 		line = new Line(startX, startY, endX, endY);
+		circle = new Circle();
 		this.startX = startX;
 		this.startY = startY;
 		this.endX = endX;
 		this.endY = endY;
+		circle.setCenterX(startX);
+		circle.setCenterY(startY);
+		circle.setRadius(3);
 		line.setStrokeWidth(3);
 		triangle = new Polygon();
 		setShape();
@@ -49,7 +56,8 @@ public class MyLine extends Line {
 		double endY = this.endY +  5*k * dy;
 		Double[] list = {aX,aY,endX,endY,bX,bY};
 		triangle.getPoints().setAll(list);
-
+		circle.setCenterX(startX);
+		circle.setCenterY(startY);
 		line.setStartX(startX);
 		line.setStartY(startY);
 		line.setEndX(this.endX);
@@ -60,6 +68,7 @@ public class MyLine extends Line {
 
 	public void getPane(Pane pane){
 		pane.getChildren().add(line);
+		pane.getChildren().add(circle);
 		pane.getChildren().add(triangle);
 	}
 	private void endMove(double x,double y){
@@ -76,9 +85,18 @@ public class MyLine extends Line {
 		endY  = endY +dy;
 		setShape();
 	}
+	private  void  startMove(double x,double y) {
+		 startX = x - triangle.getParent().getLayoutX();
+		 startY = y - triangle.getParent().getLayoutY();
+		 setShape();
+	}
 	private void startListening(){
 		 triangle.setOnMouseDragged(e->{
 			 	endMove(e.getX(), e.getY());
+		 });
+		 circle.setCursor(Cursor.E_RESIZE);
+		 circle.setOnMouseDragged(e->{
+			    startMove(e.getX(), e.getY());
 		 });
 		 /*
 		  * 直线的旋转和放缩比较简单就是根据三角形的位置来进行调整，直接设置末端为鼠标当前位置即可
