@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import model.MyLine;
 import model.MyRectangle;
 import model.MyShape;
 import model.RoundRectangle;
@@ -53,7 +54,9 @@ public class RootLayoutController implements Initializable {
 		ParallelogramImage.setCursor(Cursor.HAND);
 		CircularImage.setCursor(Cursor.HAND);
 		CurvedRectangularImage.setCursor(Cursor.HAND);
-
+		Button button = new Button();
+		MyLine myLine = new MyLine(500, 500, 300, 200);
+		myLine.getPane(DrawingArea);
 		// ªÊÕº«¯”Ú Û±Íº‡Ã˝
 		DrawingArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override

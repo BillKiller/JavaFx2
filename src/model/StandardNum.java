@@ -5,5 +5,5 @@ public class StandardNum {
 
 	}
 	public static int ARC_NUM = 100;
-	public static double TRIANBLE_LEN=6;
+	public static double TRIANBLE_LEN=10;
 }

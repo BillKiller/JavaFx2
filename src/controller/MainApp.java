@@ -45,8 +45,8 @@ public class MainApp extends Application {
             loader.setLocation(MainApp.class.getResource("/view/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
             //debug
-            MyLine myLine = new MyLine(500, 500,600,300);
-            myLine.getPane(rootLayout);
+//            MyLine myLine = new MyLine(500, 500,600,700);
+//            myLine.getPane(rootLayout);
             //用rootLayout初始化一个scene，放到stage上展示
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
