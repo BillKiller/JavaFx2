@@ -93,6 +93,10 @@ public class Editer {
 		pane.getChildren().addAll(circles);
 		pane.getChildren().addAll(lines);
 	}
+	public void delEditer(Pane pane) {
+		pane.getChildren().removeAll(circles);
+		pane.getChildren().removeAll(lines);
+	}
 	//init end
 	public void  show(double x,double y){
 		lineMove(x,y);

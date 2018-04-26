@@ -1,12 +1,19 @@
 package model;
 
+import controller.DrawController;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
 public abstract class MyShape{
+	//图形的工厂编号
+	protected int factoryID;
+	//
+	protected AnchorPane drawingArea;
+	protected DrawController drawController;
 	// 中心坐标
 	protected double x;
 	protected double y;
@@ -62,7 +69,15 @@ public abstract class MyShape{
 	public void setEditer(Editer editer) {
 		this.editer = editer;
 	}
-
+	
+	public int getFactoryID() {
+		return factoryID;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return ((MyShape)obj).getFactoryID()==this.factoryID;
+	}
 	public double getX() {
 		return x;
 	}
@@ -123,10 +138,25 @@ public abstract class MyShape{
 		rightY = y + height;
 	}
 
-	public MyShape getPane(Pane pane) {
-		editer.addEditer(pane);
-		pane.getChildren().add(shape);
+	public MyShape getPane(AnchorPane drawingArea,DrawController drawController) {
+		editer.addEditer(drawingArea);
+		drawingArea.getChildren().add(shape);
+		this.drawController=drawController;
+		this.drawingArea=drawingArea;
+//		System.out.println(this.drawingArea);
 		return this;
+	}
+	public void refresh() {
+		System.out.println(shape);
+		System.out.println(drawingArea.getChildren().size());
+		System.err.println("refresh");
+//		int idx=drawingArea.getChildren().indexOf(shape);
+//		System.out.println(idx);
+		drawingArea.getChildren().remove(shape);
+		editer.delEditer(drawingArea);
+		editer.addEditer(drawingArea);
+		System.out.println(shape);
+		drawingArea.getChildren().add(shape);
 	}
 
 	/*
@@ -148,20 +178,21 @@ public abstract class MyShape{
 			editer.show(x, y);
 			editer.disapperCircle();
 			isSelected = false;
-		});
+		}); 
 	}
 
 	public void setOnRealse() {
-		shape.setOnMouseClicked(e -> {
-			status.setRelease();
-			if (isSelected == false) {
-				isSelected = true;
-				editer.show(x, y);
-			} else {
-				isSelected = false;
-				editer.disapper();
-			}
-		});
+		shape.setOnMouseReleased(e -> {
+		this.refresh();
+		status.setRelease();
+		if (isSelected == false) {
+			isSelected = true;
+			editer.show(x, y);
+		} else {
+			isSelected = false;
+			editer.disapper();
+		}
+	}); 
 	}
 
 	public void updateLocation(double x, double y) {

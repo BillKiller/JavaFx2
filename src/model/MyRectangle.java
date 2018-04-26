@@ -5,8 +5,9 @@ import javafx.scene.shape.Rectangle;
 
 public class MyRectangle extends  MyShape {
     private Rectangle rectangle;
-    public MyRectangle(double x,double y){
+    public MyRectangle(double x,double y,int id){
         this(x,y,200,100);
+        this.factoryID=id;
     }
     public MyRectangle(double x,double y,double width,double height){
         super(x+width/2,y+height/2,width/2,height/2);

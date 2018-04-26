@@ -5,8 +5,9 @@ import javafx.scene.shape.Rectangle;
 
 public class RoundRectangle extends MyRectangle {
     Rectangle roundrectangle;
-    public  RoundRectangle(double x,double y){
+    public  RoundRectangle(double x,double y,int id){
     	this(x,y,200,100);
+    	this.factoryID=id;
     }
     public RoundRectangle(double x,double y,double width,double height){
         super(x,y,width,height);
