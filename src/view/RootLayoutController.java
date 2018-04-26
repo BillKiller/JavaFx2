@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Image;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -20,7 +21,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
+import model.CurvedRectangle;
+import model.Decision;
+import model.InputRectangle;
+import model.MyCircle;
 import model.MyLine;
 import model.MyRectangle;
 import model.MyShape;
@@ -30,24 +36,24 @@ public class RootLayoutController implements Initializable {
 	@FXML
 	private BorderPane rootLayout;
 	@FXML
-	private AnchorPane DrawingArea;
+	private AnchorPane drawingArea;
 	@FXML
-	private AnchorPane ShapeArea;
+	private AnchorPane shapeArea;
 
 	@FXML
 	private ImageView RoundedRectangleImage;
 	@FXML
 	private ImageView RectangleImage;
 	@FXML
-	private ImageView PrismImage;
+	private ImageView DecisionImage;
 	@FXML
-	private ImageView ParallelogramImage;
+	private ImageView InputRectangleImage;
 	@FXML
 	private ImageView CircularImage;
 	@FXML
 	private ImageView CurvedRectangularImage;
 
-	DrawController drawController=new DrawController(DrawingArea);
+	DrawController drawController=new DrawController(drawingArea);
 	ShapeFactory shapeFactory=new ShapeFactory();
 	String selectShape = null;
 
@@ -56,15 +62,16 @@ public class RootLayoutController implements Initializable {
 		// 初始化改变图形上面的鼠标图案
 		RoundedRectangleImage.setCursor(Cursor.HAND);
 		RectangleImage.setCursor(Cursor.HAND);
-		PrismImage.setCursor(Cursor.HAND);
-		ParallelogramImage.setCursor(Cursor.HAND);
+		DecisionImage.setCursor(Cursor.HAND);
+		InputRectangleImage.setCursor(Cursor.HAND);
 		CircularImage.setCursor(Cursor.HAND);
 		CurvedRectangularImage.setCursor(Cursor.HAND);
-		Button button = new Button();
+		
 		MyLine myLine = new MyLine(500, 500, 300, 200);
-		myLine.getPane(DrawingArea);
+		myLine.getPane(drawingArea);
+		
 		// 绘图区域鼠标监听
-		DrawingArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		drawingArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				System.out.println("draw");
@@ -76,11 +83,22 @@ public class RootLayoutController implements Initializable {
 					// 未完成：根据selectShape，在图片中心创建相应图形
 					if (selectShape. equals("RoundedRectangleImage")) {
 						RoundRectangle now = shapeFactory.newRoundRectangle(x, y);
-						now.getPane(DrawingArea,drawController);
+						now.getPane(drawingArea,drawController);
 					} else if (selectShape.equals("RectangleImage")) {
 						MyRectangle now = shapeFactory.newMyRectangle(x, y);
-						now.getPane(DrawingArea,drawController);
-						System.out.println(DrawingArea+"haha");
+						now.getPane(drawingArea,drawController);
+					}else if(selectShape.equals("DecisionImage")) {
+						Decision now = shapeFactory.newDecision(x,y);
+						now.getPane(drawingArea, drawController);
+					}else if(selectShape.equals("InputRectangleImage")) {
+						InputRectangle now =shapeFactory.newInputRectangle(x,y);
+						now.getPane(drawingArea, drawController);
+					}else if(selectShape.equals("CircularImage")) {
+						MyCircle now =shapeFactory.newMyCircle(x, y);
+						now.getPane(drawingArea, drawController);
+					}else if(selectShape.equals("CurvedRectangularImage")) {
+						CurvedRectangle now = shapeFactory.newCurvedRectangle(x,y);
+						now.getPane(drawingArea, drawController);
 					}
 					selectShape = null;
 				}
@@ -94,20 +112,34 @@ public class RootLayoutController implements Initializable {
 		});
 
 		// 图形区域鼠标监听
-		ShapeArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		shapeArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				System.out.println("shape");
 				if (event.getClickCount() == 2) {
 					if (event.getTarget().getClass() == ImageView.class) {
-						ImageView nowImage = (ImageView) event.getTarget();
-						if (nowImage.getId().equals("RoundedRectangleImage")) {
-							RoundRectangle now = shapeFactory.newRoundRectangle(DrawingArea.getWidth() / 5,
-									DrawingArea.getHeight() / 5);
-							now.getPane(DrawingArea,drawController);
-						} else if (nowImage.getId().equals("RectangleImage")) {
-							MyRectangle now = shapeFactory.newMyRectangle(DrawingArea.getWidth() / 5, DrawingArea.getHeight() / 5);
-							now.getPane(DrawingArea,drawController);
+						int x,y;
+						x=300;
+						y=300;
+						selectShape=((ImageView)event.getTarget()).getId();
+						if (selectShape. equals("RoundedRectangleImage")) {
+							RoundRectangle now = shapeFactory.newRoundRectangle(x, y);
+							now.getPane(drawingArea,drawController);
+						} else if (selectShape.equals("RectangleImage")) {
+							MyRectangle now = shapeFactory.newMyRectangle(x, y);
+							now.getPane(drawingArea,drawController);
+						}else if(selectShape.equals("DecisionImage")) {
+							Decision now = shapeFactory.newDecision(x,y);
+							now.getPane(drawingArea, drawController);
+						}else if(selectShape.equals("InputRectangleImage")) {
+							InputRectangle now =shapeFactory.newInputRectangle(x,y);
+							now.getPane(drawingArea, drawController);
+						}else if(selectShape.equals("CircularImage")) {
+							MyCircle now =shapeFactory.newMyCircle(x, y);
+							now.getPane(drawingArea, drawController);
+						}else if(selectShape.equals("CurvedRectangularImage")) {
+							CurvedRectangle now = shapeFactory.newCurvedRectangle(x,y);
+							now.getPane(drawingArea, drawController);
 						}
 						selectShape = null;
 					}

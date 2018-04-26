@@ -3,8 +3,9 @@ package model;
 import javafx.scene.shape.Polygon;
 
 public class InputRectangle extends MyPolygon{
-	public InputRectangle(double x, double y, double width, double height) {
-		super(x, y, width, height);
+	public InputRectangle(double x, double y,int id) {
+		super(x, y, 100,50);
+		this.factoryID=id;
 		// TODO Auto-generated constructor stub
 		polygon = new Polygon();
 		setShape();

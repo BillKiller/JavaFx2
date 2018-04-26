@@ -9,8 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import model.CurseRectangle;
-import model.Decisioin;
+import model.CurvedRectangle;
+import model.Decision;
 import model.InputRectangle;
 import model.MyLine;
 

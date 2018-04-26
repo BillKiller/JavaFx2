@@ -1,13 +1,19 @@
 package model;
 
+import controller.DrawController;
 import javafx.scene.Cursor;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 public class MyLine extends Line {
-
+	// 图形的工厂编号
+	protected int factoryID;
+	// 所在区域及其管理者
+	protected AnchorPane drawingArea;
+	protected DrawController drawController;
+	// 坐标信息
 	protected double startX;
 	protected double startY;
 	protected double endX;
@@ -63,10 +69,18 @@ public class MyLine extends Line {
 		line.setEndY(this.endY);
 	}
 
-	public void getPane(Pane pane) {
-		pane.getChildren().add(line);
-		pane.getChildren().add(circle);
-		pane.getChildren().add(triangle);
+	public void getPane(AnchorPane drawingArea) {
+		drawingArea.getChildren().add(line);
+		drawingArea.getChildren().add(circle);
+		drawingArea.getChildren().add(triangle);
+		this.drawingArea = drawingArea;
+	}
+
+	public void setToTop() {
+		drawingArea.getChildren().remove(line);
+		drawingArea.getChildren().remove(circle);
+		drawingArea.getChildren().remove(triangle);
+		getPane(drawingArea);
 	}
 
 	private void endMove(double x, double y) {
@@ -96,13 +110,15 @@ public class MyLine extends Line {
 		triangle.setOnMouseDragged(e -> {
 			endMove(e.getX(), e.getY());
 		});
-//		triangle.setOnMouseReleased(e ->{
-//			Shape nowShape=(Shape)e.getTarget();
-//			
-//		});
+		triangle.setOnMouseReleased(e->{
+			this.setToTop();
+		});
 		circle.setCursor(Cursor.E_RESIZE);
 		circle.setOnMouseDragged(e -> {
 			startMove(e.getX(), e.getY());
+		});
+		circle.setOnMouseReleased(e->{
+			this.setToTop();
 		});
 		/*
 		 * 直线的旋转和放缩比较简单就是根据三角形的位置来进行调整，直接设置末端为鼠标当前位置即可 直线的平移比较复杂，具体实现如下：
@@ -111,6 +127,9 @@ public class MyLine extends Line {
 		 *
 		 */
 		line.setCursor(Cursor.HAND);
+//		line.setOnMouseReleased(e -> {
+//			this.setToTop();
+//		});
 		line.setOnMouseEntered(e -> {
 			if (!isOnTheLine) {
 				lastX = e.getX();

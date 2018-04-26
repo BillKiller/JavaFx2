@@ -13,7 +13,7 @@
    <center>
       <ScrollPane prefHeight="875.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <content>
-            <AnchorPane fx:id="DrawingArea" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1000.0">
+            <AnchorPane fx:id="drawingArea" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1000.0">
                <effect>
                   <Blend />
                </effect>
@@ -22,7 +22,7 @@
       </ScrollPane>
    </center>
    <left>
-      <AnchorPane fx:id="ShapeArea" blendMode="SRC_ATOP" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="shapeArea" blendMode="SRC_ATOP" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="-3.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="          Shape           " textAlignment="CENTER" underline="true" wrappingWidth="205.30029296875" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-2.0">
                <effect>
@@ -48,12 +48,12 @@
                         <Image url="@../../image/process.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="PrismImage" fitHeight="98.0" fitWidth="147.0">
+                  <ImageView fx:id="DecisionImage" fitHeight="98.0" fitWidth="147.0">
                      <image>
                         <Image url="@../../image/decision.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="ParallelogramImage" fitHeight="98.0" fitWidth="147.0">
+                  <ImageView fx:id="InputRectangleImage" fitHeight="98.0" fitWidth="147.0">
                      <image>
                         <Image url="@../../image/data.png" />
                      </image>

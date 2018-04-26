@@ -7,7 +7,7 @@ public class MyCircle extends MyShape {
 	private Circle circle;
 	private double radius;
 	public MyCircle(double x,double y,int id){
-		this(x,y,100);
+		this(x,y,50.0);
 		this.factoryID=id;
 	}
 	public MyCircle(double x,double y,double radius){

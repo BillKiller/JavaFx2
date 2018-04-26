@@ -5,13 +5,14 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
-public abstract class MyShape{
-	//图形的工厂编号
+public abstract class MyShape {
+	// 图形的工厂编号
 	protected int factoryID;
-	//
+	// 所在区域及其管理者
 	protected AnchorPane drawingArea;
 	protected DrawController drawController;
 	// 中心坐标
@@ -56,6 +57,7 @@ public abstract class MyShape{
 		this.shape = shape;
 		this.status = new Status();
 		this.editer = new Editer(this.x, this.x, height, width);
+		shape.setFill(Color.WHEAT);
 		pane = new Group();
 		pane.setCursor(Cursor.CLOSED_HAND);
 		pane.getChildren().add(shape);
@@ -69,15 +71,16 @@ public abstract class MyShape{
 	public void setEditer(Editer editer) {
 		this.editer = editer;
 	}
-	
+
 	public int getFactoryID() {
 		return factoryID;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		return ((MyShape)obj).getFactoryID()==this.factoryID;
+		return ((MyShape) obj).getFactoryID() == this.factoryID;
 	}
+
 	public double getX() {
 		return x;
 	}
@@ -138,25 +141,17 @@ public abstract class MyShape{
 		rightY = y + height;
 	}
 
-	public MyShape getPane(AnchorPane drawingArea,DrawController drawController) {
+	public void getPane(AnchorPane drawingArea, DrawController drawController) {
 		editer.addEditer(drawingArea);
 		drawingArea.getChildren().add(shape);
-		this.drawController=drawController;
-		this.drawingArea=drawingArea;
-//		System.out.println(this.drawingArea);
-		return this;
+		this.drawController = drawController;
+		this.drawingArea = drawingArea;
 	}
-	public void refresh() {
-		System.out.println(shape);
-		System.out.println(drawingArea.getChildren().size());
-		System.err.println("refresh");
-//		int idx=drawingArea.getChildren().indexOf(shape);
-//		System.out.println(idx);
+
+	public void setToTop() {
 		drawingArea.getChildren().remove(shape);
 		editer.delEditer(drawingArea);
-		editer.addEditer(drawingArea);
-		System.out.println(shape);
-		drawingArea.getChildren().add(shape);
+		getPane(drawingArea, drawController);
 	}
 
 	/*
@@ -178,21 +173,22 @@ public abstract class MyShape{
 			editer.show(x, y);
 			editer.disapperCircle();
 			isSelected = false;
-		}); 
+		});
+		shape.setOnMouseDragEntered(value);
 	}
 
 	public void setOnRealse() {
 		shape.setOnMouseReleased(e -> {
-		this.refresh();
-		status.setRelease();
-		if (isSelected == false) {
-			isSelected = true;
-			editer.show(x, y);
-		} else {
-			isSelected = false;
-			editer.disapper();
-		}
-	}); 
+			this.setToTop();
+			status.setRelease();
+			if (isSelected == false) {
+				isSelected = true;
+				editer.show(x, y);
+			} else {
+				isSelected = false;
+				editer.disapper();
+			}
+		});
 	}
 
 	public void updateLocation(double x, double y) {

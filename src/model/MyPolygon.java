@@ -1,6 +1,8 @@
 package model;
 
 import javafx.collections.ObservableList;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 
 public abstract class MyPolygon extends MyShape {
