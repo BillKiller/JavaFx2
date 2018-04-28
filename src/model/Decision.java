@@ -7,8 +7,8 @@ public class Decision extends MyPolygon {
 		super(x, y, 100,50);
 		this.factoryID=id;
 		polygon = new Polygon();
-		setShape();
 		setMyShape(polygon);
+		setShape();
 	}
 
 	@Override

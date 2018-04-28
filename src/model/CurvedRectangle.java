@@ -5,14 +5,12 @@ import javafx.scene.shape.Polygon;
 
 public class CurvedRectangle extends MyPolygon {
 
-	private Polygon polygon;
-
 	public CurvedRectangle(double x, double y,int id) {
 		super(x, y, 100,50);
 		this.factoryID=id;
 		polygon = new Polygon();
-		setShape();
 		setMyShape(polygon);
+		setShape();
 	}
 
 	@Override
@@ -51,8 +49,4 @@ public class CurvedRectangle extends MyPolygon {
 		polygon.getPoints().setAll(list);
 	}
 
-	public MyShape getPane(Pane pane) {
-		super.getPane(pane);
-		return this;
-	}
 }

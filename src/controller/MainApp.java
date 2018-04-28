@@ -19,6 +19,7 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private AnchorPane DrawingArea;
+    
 
     @Override
     public void start(Stage primaryStage) {
@@ -42,7 +43,7 @@ public class MainApp extends Application {
         try {
         	//将RootLayout.fxml加载到rootLayout成员变量中
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("/view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/controller/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
             //debug
 //            MyLine myLine = new MyLine(500, 500,600,700);
@@ -60,10 +61,13 @@ public class MainApp extends Application {
     	try {
         	//将RootLayout.fxml加载到rootLayout成员变量中
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("/view/RootLayout.fxml"));
+            loader.setLocation(MainApp.class.getResource("/controller/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
             //用rootLayout初始化一个scene，放到stage上展示
             Scene scene = new Scene(rootLayout);
+            scene.setOnKeyPressed(e->{
+            	
+            });
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

@@ -6,12 +6,13 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 
 public abstract class MyPolygon extends MyShape {
+	
 	protected Polygon polygon;
 
 	public MyPolygon(double x, double y, double width, double height) {
 		super(x, y, width, height);
 		polygon = new Polygon();
-		setMyShape(polygon);
+	    setMyShape(polygon);
 	}
 
 	public void setX(double x) {

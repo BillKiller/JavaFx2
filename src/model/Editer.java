@@ -13,14 +13,10 @@ public class Editer {
 	private double y;
 	private double width;
 	private double height;
-	private Pane pane;
 	private Line []lines;
 	private int OnClick=0;
 	public Point[] getCircles(){
 		return this.circles;
-	}
-	public Pane getPane(){
-		return pane;
 	}
 	public Editer(double x,double y,double height,double width){
 			this.x=x;
@@ -131,5 +127,4 @@ public class Editer {
 		disapperCircle();
 		disapperLine();
 	}
-
 }

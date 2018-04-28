@@ -1,6 +1,8 @@
 package model;
 
 import controller.DrawController;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
@@ -28,14 +30,17 @@ public abstract class MyShape {
 	protected double width;
 	protected double height;
 
+
+	private BooleanProperty booleanProperty;
 	// 状态
 	private boolean isDrag = false;
 	private boolean isZoom = false;
 	private boolean isSelected = false;
 	// 内容
-	private Shape shape;
+	protected Shape shape;
 	private Editer editer;
 	private Status status;
+	protected DrawPoints drawPoints;
 	// 放缩RESIZE使用使用的常量
 	private final static int minReSize = 5;
 	private final static int[][] RESIZ_DRECTION = { { 0, -1, -1 }, { 1, -1, 0 }, { 2, -1, 1 }, { 3, 0, -1 },
@@ -48,7 +53,18 @@ public abstract class MyShape {
 	public Shape getShape() {
 		return this.shape;
 	}
-
+	public void setISelected(boolean isSelected){
+		this.isSelected=isSelected;
+	}
+	public boolean isSelected(){
+		return isSelected;
+	}
+	public BooleanProperty getBooleanProperty() {
+		return booleanProperty;
+	}
+	public void setBooleanProperty(BooleanProperty booleanProperty) {
+		this.booleanProperty = booleanProperty;
+	}
 	public Status getStatus() {
 		return status;
 	}
@@ -57,11 +73,16 @@ public abstract class MyShape {
 		this.shape = shape;
 		this.status = new Status();
 		this.editer = new Editer(this.x, this.x, height, width);
-		shape.setFill(Color.WHEAT);
+		this.booleanProperty = new SimpleBooleanProperty(false);
+		this.drawPoints= new DrawPoints();
+		createDrawPoints();
+		shape.setFill(Color.WHITE);
+		shape.setStroke(Color.BLACK);
 		pane = new Group();
 		pane.setCursor(Cursor.CLOSED_HAND);
 		pane.getChildren().add(shape);
 		addListener();
+
 	}
 
 	public Editer getEditer() {
@@ -140,10 +161,17 @@ public abstract class MyShape {
 		rightX = x + width;
 		rightY = y + height;
 	}
-
+	//删除函数
+	public void delet(){
+		drawingArea.getChildren().remove(shape);
+		editer.delEditer(drawingArea);
+		drawPoints.delPoint(drawingArea);
+	}
 	public void getPane(AnchorPane drawingArea, DrawController drawController) {
+		System.out.println(editer);
 		editer.addEditer(drawingArea);
 		drawingArea.getChildren().add(shape);
+		drawingArea.getChildren().addAll(drawPoints.getCircles());
 		this.drawController = drawController;
 		this.drawingArea = drawingArea;
 	}
@@ -151,7 +179,24 @@ public abstract class MyShape {
 	public void setToTop() {
 		drawingArea.getChildren().remove(shape);
 		editer.delEditer(drawingArea);
+		drawPoints.delPoint(drawingArea);;
 		getPane(drawingArea, drawController);
+	}
+
+	/*
+	 *当鼠标拖动的时候产生4个点
+	 *
+	 */
+	public void createDrawPoints(){
+		double leftMidX = this.x - width;
+		double leftMidY = this.y ;
+		double upMidX = this.x;
+		double upMidY = this.y-height;
+		double rightMidX = this.x+width;
+		double rightMidY = this.y;
+		double downMidX = this.x;
+		double downMidY = this.y+height;
+		drawPoints.updataLocation(leftMidX, leftMidY, upMidX, upMidY, rightMidX, rightMidY, downMidX, downMidY);
 	}
 
 	/*
@@ -165,8 +210,17 @@ public abstract class MyShape {
 		resizeCursorListener();
 		resizeListener();
 		moveHandListener();
+		changeListener();
 	}
 
+	public void changeListener(){
+		booleanProperty.addListener(e->{
+			if(booleanProperty.getValue()==false){
+					drawController.getPropertyController().setWorkShape(this);
+					drawController.getPropertyController().update();
+			}
+		});
+	}
 	public void setOnDrag() {
 		shape.setOnMouseDragged(e -> {
 			Move(e.getX(), e.getY());
@@ -174,12 +228,12 @@ public abstract class MyShape {
 			editer.disapperCircle();
 			isSelected = false;
 		});
-		shape.setOnMouseDragEntered(value);
 	}
 
 	public void setOnRealse() {
 		shape.setOnMouseReleased(e -> {
 			this.setToTop();
+			this.booleanProperty.setValue(false);;
 			status.setRelease();
 			if (isSelected == false) {
 				isSelected = true;
@@ -198,6 +252,8 @@ public abstract class MyShape {
 		this.rightY = y + height;
 		this.leftX = x - width;
 		this.leftY = y - height;
+		booleanProperty.setValue(true);
+		createDrawPoints();
 	}
 
 	public void Move(double x, double y) {
@@ -294,6 +350,14 @@ public abstract class MyShape {
 					editer.show(this.x, this.y);
 				}
 			});
+			circles[i].setOnMouseReleased(e->{
+				this.booleanProperty.setValue(false);;
+			});
 		}
+	}
+	@Override
+	public String toString(){
+		String tostring = getClass().getSimpleName()+"("+this.x+","+this.y+","+this.width+","+this.height+")";
+		return tostring;
 	}
 }
