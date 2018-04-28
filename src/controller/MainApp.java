@@ -19,7 +19,7 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     private AnchorPane DrawingArea;
-    
+
 
     @Override
     public void start(Stage primaryStage) {
@@ -66,7 +66,7 @@ public class MainApp extends Application {
             //用rootLayout初始化一个scene，放到stage上展示
             Scene scene = new Scene(rootLayout);
             scene.setOnKeyPressed(e->{
-            	
+
             });
             primaryStage.setScene(scene);
             primaryStage.show();

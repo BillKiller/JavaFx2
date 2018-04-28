@@ -13,7 +13,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -66,6 +68,11 @@ public class RootLayoutController implements Initializable {
 	@FXML
 	private TextField textFieldY;
 
+	@FXML
+	private TextArea textArea;
+
+	@FXML
+	private Button button2;
 
 	private DrawController drawController;
 	private PropertyController propertyController;
@@ -94,8 +101,16 @@ public class RootLayoutController implements Initializable {
 		shapeFactory=new ShapeFactory(drawingArea,drawController);
 		MyLine myLine = new MyLine(500, 500, 300, 200);
 		myLine.getPane(drawingArea);
-	    propertyController = new PropertyController(textFieldX,textFieldY,textFieldW,textFieldH);
+
+	    propertyController = new PropertyController(textFieldX,textFieldY,textFieldW,textFieldH,textArea);
+	    System.out.println(button2);
+	    propertyController.setButton(button2);
+	    propertyController.edit();
 	    drawController.setPropertyController(propertyController);
+//	    dccrawController.setScene(scene);
+
+//	    \
+
 		// ªÊÕº«¯”Ú Û±Íº‡Ã˝
 
 		drawingArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -111,8 +126,14 @@ public class RootLayoutController implements Initializable {
 					drawController.addDrawArea();
 					selectShape = null;
 				}
+				if(event.getClickCount() ==1 && selectShape == null){
+						drawController.getPropertyController().setWorkShape(drawController.workingShape());
+						drawController.getPropertyController().update();
+				}
 				if(event.getClickCount()==2 && selectShape == null){
 					drawController.clearAllOnEdit();
+					drawController.getPropertyController().setWorkShape(null);
+					drawController.getPropertyController().update();
 				}
 			}
 		});

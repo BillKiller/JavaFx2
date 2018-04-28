@@ -6,29 +6,29 @@ import javafx.scene.shape.Rectangle;
 public class MyRectangle extends  MyShape {
     private Rectangle rectangle;
     public MyRectangle(double x,double y,int id){
-        this(x,y,200,100);
+        this(x,y,100,100);
         this.factoryID=id;
     }
     public MyRectangle(double x,double y,double width,double height){
-        super(x+width/2,y+height/2,width/2,height/2);
-        this.rectangle=new Rectangle(x,y,width,height);
+        super(x,y,width,height);
+        this.rectangle=new Rectangle(x-width,y-height,2*width,2*height);
         this.rectangle.setFill(Color.WHITE);
         this.rectangle.setStroke(Color.BLACK);
         super.setMyShape(this.rectangle);
     }
     public void setX(double x){
-        rectangle.setX(x);
+        rectangle.setX(leftX);
     }
     public void setY(double y){
-        rectangle.setY(y);
+        rectangle.setY(leftY);
     }
     public void setWidth(double width){
         this.width=width;
-        rectangle.setWidth(width*2);
+        rectangle.setWidth(2*width);
     }
     public  void setHeight(double height){
         this.height=height;
-        rectangle.setHeight(height*2);
+        rectangle.setHeight(2*height);
     }
     @Override
     public void Move(double x,double y){

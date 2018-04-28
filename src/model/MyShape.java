@@ -3,6 +3,8 @@ package model;
 import controller.DrawController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;
@@ -10,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 
 public abstract class MyShape {
 	// 图形的工厂编号
@@ -40,6 +43,7 @@ public abstract class MyShape {
 	protected Shape shape;
 	private Editer editer;
 	private Status status;
+	private Text text;
 	protected DrawPoints drawPoints;
 	// 放缩RESIZE使用使用的常量
 	private final static int minReSize = 5;
@@ -74,6 +78,9 @@ public abstract class MyShape {
 		this.status = new Status();
 		this.editer = new Editer(this.x, this.x, height, width);
 		this.booleanProperty = new SimpleBooleanProperty(false);
+		this.text = new Text();
+		this.text.setX(x);
+		this.text.setY(y);
 		this.drawPoints= new DrawPoints();
 		createDrawPoints();
 		shape.setFill(Color.WHITE);
@@ -168,10 +175,10 @@ public abstract class MyShape {
 		drawPoints.delPoint(drawingArea);
 	}
 	public void getPane(AnchorPane drawingArea, DrawController drawController) {
-		System.out.println(editer);
 		editer.addEditer(drawingArea);
 		drawingArea.getChildren().add(shape);
 		drawingArea.getChildren().addAll(drawPoints.getCircles());
+		drawingArea.getChildren().add(text);
 		this.drawController = drawController;
 		this.drawingArea = drawingArea;
 	}
@@ -180,6 +187,7 @@ public abstract class MyShape {
 		drawingArea.getChildren().remove(shape);
 		editer.delEditer(drawingArea);
 		drawPoints.delPoint(drawingArea);;
+		drawingArea.getChildren().remove(text);
 		getPane(drawingArea, drawController);
 	}
 
@@ -254,8 +262,15 @@ public abstract class MyShape {
 		this.leftY = y - height;
 		booleanProperty.setValue(true);
 		createDrawPoints();
+		update();
 	}
 
+	public Text getText() {
+		return text;
+	}
+	public void setText(Text text) {
+		this.text = text;
+	}
 	public void Move(double x, double y) {
 		double posX = x - this.getShape().getParent().getLayoutX();
 		double posY = y - this.getShape().getParent().getLayoutY();
@@ -354,6 +369,11 @@ public abstract class MyShape {
 				this.booleanProperty.setValue(false);;
 			});
 		}
+	}
+	public void update(){
+			int len = text.getText().length()*5;
+			text.setX(x-len);
+			text.setY(y);
 	}
 	@Override
 	public String toString(){
