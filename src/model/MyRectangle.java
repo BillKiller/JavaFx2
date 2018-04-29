@@ -17,23 +17,34 @@ public class MyRectangle extends  MyShape {
         super.setMyShape(this.rectangle);
     }
     public void setX(double x){
-        rectangle.setX(leftX);
+    	this.x =x;
+    	 updateRectangle();
+        rectangle.setX(x-width);
     }
     public void setY(double y){
-        rectangle.setY(leftY);
+        this.y = y;
+        updateRectangle();
+    	rectangle.setY(y-height);
     }
     public void setWidth(double width){
         this.width=width;
         rectangle.setWidth(2*width);
+        updateRectangle();
     }
     public  void setHeight(double height){
-        this.height=height;
-        rectangle.setHeight(2*height);
+    	this.height=height;
+    	updateRectangle();
+    	rectangle.setHeight(2*height);
     }
     @Override
     public void Move(double x,double y){
         super.Move(x,y);
-        rectangle.setX(leftX);
-        rectangle.setY(leftY);
+        rectangle.setX(x-width);
+        rectangle.setY(y-height);
+    }
+    public void updateRectangle(){
+    		this.leftX = x -width;
+    		this.leftY = y - height;
+    		updateLocation(this.x, this.y);
     }
 }

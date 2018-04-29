@@ -51,7 +51,8 @@ public class DrawController {
 	}
 
 	public void regriste(MyShape shape) {
-		list.add(shape);
+		if(shape != null)
+			list.add(shape);
 	}
 
 	public void delete(MyShape shape) {

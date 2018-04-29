@@ -107,6 +107,9 @@ public class RootLayoutController implements Initializable {
 	    propertyController.setButton(button2);
 	    propertyController.edit();
 	    drawController.setPropertyController(propertyController);
+	    drawingArea.setOnKeyPressed(e->{
+	    	System.out.println("asdasd");
+	    });
 //	    dccrawController.setScene(scene);
 
 //	    \

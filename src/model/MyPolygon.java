@@ -6,7 +6,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 
 public abstract class MyPolygon extends MyShape {
-	
+
 	protected Polygon polygon;
 
 	public MyPolygon(double x, double y, double width, double height) {
@@ -16,12 +16,12 @@ public abstract class MyPolygon extends MyShape {
 	}
 
 	public void setX(double x) {
-		this.leftX = x;
+		this.x = x;
 		setShape();
 	}
 
 	public void setY(double y) {
-		this.leftY = y;
+		this.y = y;
 		setShape();
 	}
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -27,12 +28,6 @@ public class MainApp extends Application {
         this.primaryStage.setTitle("Flow Graph Editor");
 
         initRootLayout();
-//        MyCircle myCircle = new MyCircle();
-//        myCircle.getPane(rootLayout);
-//		MyRectangle myRectangle=new MyRectangle(500,500,200,100);
-//		myRectangle.getPane(rootLayout);
-//		RoundRectangle roundRectangle=new RoundRectangle(500,500,200,100);
-//		roundRectangle.getPane(rootLayout);
 
     }
 
@@ -65,11 +60,14 @@ public class MainApp extends Application {
             rootLayout = (BorderPane) loader.load();
             //用rootLayout初始化一个scene，放到stage上展示
             Scene scene = new Scene(rootLayout);
-            scene.setOnKeyPressed(e->{
-
+            ((ScrollPane)rootLayout.getCenter()).setOnKeyPressed(e->{
+         	   System.out.println("as123");
             });
             primaryStage.setScene(scene);
             primaryStage.show();
+
+            ((ScrollPane)rootLayout.getCenter()).requestFocus();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

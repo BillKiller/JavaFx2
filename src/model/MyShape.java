@@ -34,7 +34,7 @@ public abstract class MyShape {
 	protected double height;
 
 
-	private BooleanProperty booleanProperty;
+	protected BooleanProperty booleanProperty;
 	// 状态
 	private boolean isDrag = false;
 	private boolean isZoom = false;
@@ -260,11 +260,13 @@ public abstract class MyShape {
 		this.rightY = y + height;
 		this.leftX = x - width;
 		this.leftY = y - height;
-		booleanProperty.setValue(true);
 		createDrawPoints();
+		getEditer().setHeight(height + 10);
+		getEditer().setWidth(width + 10);
+		if(isSelected)
+			editer.show(x, y);
 		update();
 	}
-
 	public Text getText() {
 		return text;
 	}
@@ -274,6 +276,7 @@ public abstract class MyShape {
 	public void Move(double x, double y) {
 		double posX = x - this.getShape().getParent().getLayoutX();
 		double posY = y - this.getShape().getParent().getLayoutY();
+		booleanProperty.setValue(true);
 		updateLocation(posX, posY);
 	}
 
@@ -333,11 +336,12 @@ public abstract class MyShape {
 			getEditer().setHeight(height + 10);
 			getEditer().setWidth(width + 10);
 			// 矩形变换效果
-			this.setX(leftX);
-			this.setY(leftY);
+			this.setX(x);
+			this.setY(y);
 			this.setWidth(width);
 			this.setHeight(height);
 			// 生成编辑框的变换效果
+			booleanProperty.setValue(true);
 		}
 	}
 
@@ -377,7 +381,7 @@ public abstract class MyShape {
 	}
 	@Override
 	public String toString(){
-		String tostring = getClass().getSimpleName()+"("+this.x+","+this.y+","+this.width+","+this.height+")";
+		String tostring = getClass().getSimpleName()+"("+this.x+","+this.y+","+this.width+","+this.height+")"+"["+text.getText()+"]";
 		return tostring;
 	}
 }

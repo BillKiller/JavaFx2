@@ -15,6 +15,8 @@ public class CurvedRectangle extends MyPolygon {
 
 	@Override
 	public void setShape() {
+		leftX = this.x-width;
+		leftY = this.y -height;
 		double downLeftX = leftX;
 		double downLeftY = this.y + 3.0 * height / 4;
 		double upLeftX = leftX;
