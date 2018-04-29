@@ -130,10 +130,13 @@ public class RootLayoutController implements Initializable {
 					selectShape = null;
 				}
 				if(event.getClickCount() ==1 && selectShape == null){
+
 						drawController.getPropertyController().setWorkShape(drawController.workingShape());
+						//点击一下鼠标，这时候总管家去arraylist里面寻找，寻找到当前处在编辑状态的Shape，并使它位于右侧属性栏管家管理
 						drawController.getPropertyController().update();
 				}
 				if(event.getClickCount()==2 && selectShape == null){
+					//点两下空白区域，就清楚掉所有的shape状态
 					drawController.clearAllOnEdit();
 					drawController.getPropertyController().setWorkShape(null);
 					drawController.getPropertyController().update();

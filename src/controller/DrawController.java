@@ -15,6 +15,11 @@ import model.MyLine;
 import model.MyShape;
 
 //注意这个管家要设置为最大的管家，然后在这个管家的下面设置小管家，记录必要状态和管理不同区域的联系
+/*
+ *总管家给属性栏提供一个工作的Shape（画图区域唯一处在编辑状态的Shape，如果有多个shape处在编辑状态那么我们修改右侧其实是没有意义的，所以只有当有且仅有一个的时候，
+ *总管家给右侧属性栏管家提供一个Shape让属性管家显示属性和修改属性
+ *
+ */
 public class DrawController {
 	private AnchorPane drawingArea = null;
 	private ArrayList<MyShape> list = new ArrayList<>();

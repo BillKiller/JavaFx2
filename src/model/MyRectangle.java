@@ -33,7 +33,6 @@ public class MyRectangle extends  MyShape {
     }
     public  void setHeight(double height){
     	this.height=height;
-    	updateRectangle();
     	rectangle.setHeight(2*height);
     }
     @Override

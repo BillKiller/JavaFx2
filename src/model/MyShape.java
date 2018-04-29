@@ -33,7 +33,7 @@ public abstract class MyShape {
 	protected double width;
 	protected double height;
 
-
+	// 利用一个可监听的变量监听数值的变化，功能是记录MyShape的属性有没有发生改变，为以后的操作栈提供服务
 	protected BooleanProperty booleanProperty;
 	// 状态
 	private boolean isDrag = false;
@@ -57,18 +57,23 @@ public abstract class MyShape {
 	public Shape getShape() {
 		return this.shape;
 	}
-	public void setISelected(boolean isSelected){
-		this.isSelected=isSelected;
+
+	public void setISelected(boolean isSelected) {
+		this.isSelected = isSelected;
 	}
-	public boolean isSelected(){
+
+	public boolean isSelected() {
 		return isSelected;
 	}
+
 	public BooleanProperty getBooleanProperty() {
 		return booleanProperty;
 	}
+
 	public void setBooleanProperty(BooleanProperty booleanProperty) {
 		this.booleanProperty = booleanProperty;
 	}
+
 	public Status getStatus() {
 		return status;
 	}
@@ -81,7 +86,7 @@ public abstract class MyShape {
 		this.text = new Text();
 		this.text.setX(x);
 		this.text.setY(y);
-		this.drawPoints= new DrawPoints();
+		this.drawPoints = new DrawPoints();
 		createDrawPoints();
 		shape.setFill(Color.WHITE);
 		shape.setStroke(Color.BLACK);
@@ -157,6 +162,14 @@ public abstract class MyShape {
 		this.leftY = leftY;
 	}
 
+	public Text getText() {
+		return text;
+	}
+
+	public void setText(Text text) {
+		this.text = text;
+	}
+
 	// -----------constructor------------------------
 	public MyShape(double x, double y, double width, double height) {
 		this.x = x;
@@ -168,16 +181,19 @@ public abstract class MyShape {
 		rightX = x + width;
 		rightY = y + height;
 	}
-	//删除函数
-	public void delet(){
+
+	// 删除函数，为提供detele做服务
+	public void delet() {
 		drawingArea.getChildren().remove(shape);
 		editer.delEditer(drawingArea);
 		drawPoints.delPoint(drawingArea);
 	}
+
 	public void getPane(AnchorPane drawingArea, DrawController drawController) {
 		editer.addEditer(drawingArea);
 		drawingArea.getChildren().add(shape);
 		drawingArea.getChildren().addAll(drawPoints.getCircles());
+		// text是新加入的内容
 		drawingArea.getChildren().add(text);
 		this.drawController = drawController;
 		this.drawingArea = drawingArea;
@@ -186,24 +202,25 @@ public abstract class MyShape {
 	public void setToTop() {
 		drawingArea.getChildren().remove(shape);
 		editer.delEditer(drawingArea);
-		drawPoints.delPoint(drawingArea);;
+		drawPoints.delPoint(drawingArea);
+		;
 		drawingArea.getChildren().remove(text);
 		getPane(drawingArea, drawController);
 	}
 
 	/*
-	 *当鼠标拖动的时候产生4个点
+	 * 当鼠标拖动的时候产生4个点
 	 *
 	 */
-	public void createDrawPoints(){
+	public void createDrawPoints() {
 		double leftMidX = this.x - width;
-		double leftMidY = this.y ;
+		double leftMidY = this.y;
 		double upMidX = this.x;
-		double upMidY = this.y-height;
-		double rightMidX = this.x+width;
+		double upMidY = this.y - height;
+		double rightMidX = this.x + width;
 		double rightMidY = this.y;
 		double downMidX = this.x;
-		double downMidY = this.y+height;
+		double downMidY = this.y + height;
 		drawPoints.updataLocation(leftMidX, leftMidY, upMidX, upMidY, rightMidX, rightMidY, downMidX, downMidY);
 	}
 
@@ -218,17 +235,20 @@ public abstract class MyShape {
 		resizeCursorListener();
 		resizeListener();
 		moveHandListener();
+		// 当MyShape的属性发生改变的时候响应
 		changeListener();
 	}
 
-	public void changeListener(){
-		booleanProperty.addListener(e->{
-			if(booleanProperty.getValue()==false){
-					drawController.getPropertyController().setWorkShape(this);
-					drawController.getPropertyController().update();
+	public void changeListener() {
+		booleanProperty.addListener(e -> {
+			if (booleanProperty.getValue() == false) {
+				// 如果物体发生改变说明这个物体是当前工作的Shape，此时右侧的属性栏显示这个Shape的属性
+				drawController.getPropertyController().setWorkShape(this);
+				drawController.getPropertyController().update();
 			}
 		});
 	}
+
 	public void setOnDrag() {
 		shape.setOnMouseDragged(e -> {
 			Move(e.getX(), e.getY());
@@ -241,7 +261,8 @@ public abstract class MyShape {
 	public void setOnRealse() {
 		shape.setOnMouseReleased(e -> {
 			this.setToTop();
-			this.booleanProperty.setValue(false);;
+			this.booleanProperty.setValue(false);
+			;
 			status.setRelease();
 			if (isSelected == false) {
 				isSelected = true;
@@ -263,16 +284,11 @@ public abstract class MyShape {
 		createDrawPoints();
 		getEditer().setHeight(height + 10);
 		getEditer().setWidth(width + 10);
-		if(isSelected)
+		if (isSelected)
 			editer.show(x, y);
 		update();
 	}
-	public Text getText() {
-		return text;
-	}
-	public void setText(Text text) {
-		this.text = text;
-	}
+
 	public void Move(double x, double y) {
 		double posX = x - this.getShape().getParent().getLayoutX();
 		double posY = y - this.getShape().getParent().getLayoutY();
@@ -369,19 +385,25 @@ public abstract class MyShape {
 					editer.show(this.x, this.y);
 				}
 			});
-			circles[i].setOnMouseReleased(e->{
-				this.booleanProperty.setValue(false);;
+			// 物体在放缩的时候记录一个状态代表改变
+			circles[i].setOnMouseReleased(e -> {
+				this.booleanProperty.setValue(false);
+				;
 			});
 		}
 	}
-	public void update(){
-			int len = text.getText().length()*5;
-			text.setX(x-len);
-			text.setY(y);
+
+	// 每次移动会导致中心坐标x,y改变，为了防止text与图形发生偏移我们需要更新text的位置
+	public void update() {
+		int len = text.getText().length() * 5;
+		text.setX(x - len);
+		text.setY(y);
 	}
+
 	@Override
-	public String toString(){
-		String tostring = getClass().getSimpleName()+"("+this.x+","+this.y+","+this.width+","+this.height+")"+"["+text.getText()+"]";
+	public String toString() {
+		String tostring = getClass().getSimpleName() + "(" + this.x + "," + this.y + "," + this.width + ","
+				+ this.height + ")" + "[" + text.getText() + "]";
 		return tostring;
 	}
 }

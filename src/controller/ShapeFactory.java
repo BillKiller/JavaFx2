@@ -19,7 +19,9 @@ public class ShapeFactory {
 	private int countShapeID = 0;
 	private AnchorPane drawingArea;
 	private DrawController drawController;
-
+	/*
+	 * 工厂是多入口单出口的
+	 */
 	public ShapeFactory(AnchorPane drawingArea,DrawController drawController){
 		this.drawingArea = drawingArea;
 		this.drawController=drawController;
@@ -107,6 +109,7 @@ public class ShapeFactory {
 		default:
 			break;
 		}
+		//生产完了的产品要交给管理者登记进入列表方便以后管理
 		drawController.regriste(shape);
 		return shape;
 	}
