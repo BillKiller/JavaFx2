@@ -28,11 +28,12 @@ public class DrawPoints {
 	public void delPoint(Pane pane) {
 		pane.getChildren().removeAll(points);
 	}
+	
 	public Circle[] getCircles(){
 		return points;
 	}
-
-	public void settVisiable(boolean state){
+	
+	public void setAllVisiable(boolean state){
 		for(int i =0;i<points.length;i++){
 			points[i].setVisible(state);
 		}

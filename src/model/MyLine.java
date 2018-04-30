@@ -2,6 +2,7 @@ package model;
 
 import controller.DrawController;
 import javafx.scene.Cursor;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -69,21 +70,22 @@ public class MyLine extends Line {
 		line.setEndY(this.endY);
 	}
 
-	public void getPane(AnchorPane drawingArea) {
+	public void getPane(AnchorPane drawingArea, DrawController drawController) {
 		drawingArea.getChildren().add(line);
 		drawingArea.getChildren().add(circle);
 		drawingArea.getChildren().add(triangle);
 		this.drawingArea = drawingArea;
+		this.drawController = drawController;
 	}
 
 	public void setToTop() {
 		drawingArea.getChildren().remove(line);
 		drawingArea.getChildren().remove(circle);
 		drawingArea.getChildren().remove(triangle);
-		getPane(drawingArea);
+		getPane(drawingArea, drawController);
 	}
 
-	private void endMove(double x, double y) {
+	public void endMove(double x, double y) {
 		// 末端的移动是根据绝对位置
 		endX = x - triangle.getParent().getLayoutX();
 		endY = y - triangle.getParent().getLayoutY();
@@ -99,37 +101,44 @@ public class MyLine extends Line {
 		setShape();
 	}
 
-	private void startMove(double x, double y) {
+	public void startMove(double x, double y) {
 		startX = x - triangle.getParent().getLayoutX();
 		startY = y - triangle.getParent().getLayoutY();
 		setShape();
 	}
 
 	private void startListening() {
-		triangle.setCursor(Cursor.E_RESIZE);
+		triangle.setCursor(Cursor.HAND);
+		circle.setCursor(Cursor.HAND);
+		line.setCursor(Cursor.MOVE);
 		triangle.setOnMouseDragged(e -> {
+			e.setDragDetect(true);
+			drawController.checkDistanceToPoints(e.getX(), e.getY());
 			endMove(e.getX(), e.getY());
 		});
-		triangle.setOnMouseReleased(e->{
+		triangle.setOnMouseReleased(e -> {
 			this.setToTop();
+			drawController.setDragLine(this);
+			drawController.connect(e.getX(),e.getY(),"end");
+			drawController.setDragLine(null);
 		});
-		circle.setCursor(Cursor.E_RESIZE);
 		circle.setOnMouseDragged(e -> {
+			drawController.setDragLine(this);
+			drawController.setDragLine(this);
+			drawController.checkDistanceToPoints(e.getX(), e.getY());
 			startMove(e.getX(), e.getY());
 		});
-		circle.setOnMouseReleased(e->{
+		circle.setOnMouseReleased(e -> {
 			this.setToTop();
+			drawController.setDragLine(this);
+			drawController.connect(e.getX(),e.getY(),"start");
+			drawController.setDragLine(null);
 		});
 		/*
 		 * 直线的旋转和放缩比较简单就是根据三角形的位置来进行调整，直接设置末端为鼠标当前位置即可 直线的平移比较复杂，具体实现如下：
 		 * 记录鼠标开始的位置，当鼠标移动到line里面的时候记录，如果鼠标不移出那么不改变上一次位置 当鼠标移动的时候产生新的移动位置，dx =
 		 * e.getX()-lastX,dy = getY()-lastY; 根据鼠标移动的位移对两个端点进行相应的平移
-		 *
 		 */
-		line.setCursor(Cursor.HAND);
-//		line.setOnMouseReleased(e -> {
-//			this.setToTop();
-//		});
 		line.setOnMouseEntered(e -> {
 			if (!isOnTheLine) {
 				lastX = e.getX();
@@ -146,6 +155,9 @@ public class MyLine extends Line {
 			lastX = e.getX();
 			lastY = e.getY();
 			move(dx, dy);
+		});
+		line.setOnMouseReleased(e->{
+			this.setToTop();
 		});
 	}
 }

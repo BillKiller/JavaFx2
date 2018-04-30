@@ -100,7 +100,7 @@ public class RootLayoutController implements Initializable {
 		drawController=new DrawController(drawingArea);
 		shapeFactory=new ShapeFactory(drawingArea,drawController);
 		MyLine myLine = new MyLine(500, 500, 300, 200);
-		myLine.getPane(drawingArea);
+		myLine.getPane(drawingArea,drawController);
 
 	    propertyController = new PropertyController(textFieldX,textFieldY,textFieldW,textFieldH,textArea);
 	    System.out.println(button2);

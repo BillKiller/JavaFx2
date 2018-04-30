@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 public class MyRectangle extends  MyShape {
     private Rectangle rectangle;
     public MyRectangle(double x,double y,int id){
-        this(x,y,100,100);
+        this(x,y,100,50);
         this.factoryID=id;
     }
     public MyRectangle(double x,double y,double width,double height){

@@ -1,5 +1,7 @@
 package model;
 
+import org.omg.CORBA.FloatSeqHelper;
+
 import controller.DrawController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -52,7 +54,9 @@ public abstract class MyShape {
 	private final static Cursor[] hand = { Cursor.NW_RESIZE, Cursor.W_RESIZE, Cursor.SW_RESIZE, Cursor.N_RESIZE,
 			Cursor.MOVE, Cursor.S_RESIZE, Cursor.NE_RESIZE, Cursor.E_RESIZE, Cursor.SE_RESIZE };
 	private Group pane;
-
+	
+//	private Shape 
+	
 	// --getter and setter
 	public Shape getShape() {
 		return this.shape;
@@ -76,6 +80,10 @@ public abstract class MyShape {
 
 	public Status getStatus() {
 		return status;
+	}
+
+	public DrawPoints getDrawPoints() {
+		return this.drawPoints;
 	}
 
 	public void setMyShape(Shape shape) {
@@ -193,6 +201,7 @@ public abstract class MyShape {
 		editer.addEditer(drawingArea);
 		drawingArea.getChildren().add(shape);
 		drawingArea.getChildren().addAll(drawPoints.getCircles());
+		drawPoints.setAllVisiable(false);
 		// text是新加入的内容
 		drawingArea.getChildren().add(text);
 		this.drawController = drawController;
@@ -203,7 +212,6 @@ public abstract class MyShape {
 		drawingArea.getChildren().remove(shape);
 		editer.delEditer(drawingArea);
 		drawPoints.delPoint(drawingArea);
-		;
 		drawingArea.getChildren().remove(text);
 		getPane(drawingArea, drawController);
 	}
@@ -231,6 +239,7 @@ public abstract class MyShape {
 	 */
 	public void addListener() {
 		setOnDrag();
+//		setOnMouseEnter();
 		setOnRealse();
 		resizeCursorListener();
 		resizeListener();
@@ -257,12 +266,23 @@ public abstract class MyShape {
 			isSelected = false;
 		});
 	}
+//
+//	public void setOnMouseEnter() {
+//		shape.setOnDragDone(e -> {
+//			System.out.println("go");
+//			if (drawController.isDraggingLine()) {
+//				System.out.println("gogogo");
+//				drawController.setDragInShape(this);
+//			}
+//			e.setDropCompleted(true);
+//			e.consume();
+//		});
+//	}
 
 	public void setOnRealse() {
 		shape.setOnMouseReleased(e -> {
 			this.setToTop();
 			this.booleanProperty.setValue(false);
-			;
 			status.setRelease();
 			if (isSelected == false) {
 				isSelected = true;
@@ -304,7 +324,6 @@ public abstract class MyShape {
 	private void resizeCursorListener() {
 		Point[] circles = editer.getCircles();
 		for (int i = 0; i < circles.length; i++) {
-
 			circles[i].setPosid(i);
 			circles[i].setLeftX(RESIZ_DRECTION[i][0]);
 			circles[i].setDirectionX(RESIZ_DRECTION[i][1]);

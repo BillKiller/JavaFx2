@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 public class RoundRectangle extends MyRectangle {
     Rectangle roundrectangle;
     public  RoundRectangle(double x,double y,int id){
-    	this(x,y,200,100);
+    	this(x,y,100,50);
     	this.factoryID=id;
     }
     public RoundRectangle(double x,double y,double width,double height){
