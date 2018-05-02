@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import model.ConnectionInfo;
 import model.MyLine;
 import model.MyShape;
 
@@ -41,11 +42,16 @@ public class DrawController {
 	private double maxDistance = 50;
 
 	// 连接线和图形
-	public void connect(double x1, double y1, String type) {
+	public void connect(double x1, double y1, String type,MyLine line) {
 		double minDistance = 100000;
 		nearPoint = null;
+		MyShape nearShape=null;
+		int location=0;
+		String part=type;
 		for (MyShape nowShape : list) {
-			for (Circle nowCircle : nowShape.getDrawPoints().getCircles()) {
+			Circle[] circles=nowShape.getDrawPoints().getCircles();
+			for(int i=0;i<4;i++) {
+				Circle nowCircle=circles[i];
 				nowCircle.setVisible(false);
 				double x2, y2;
 				x2 = nowCircle.getCenterX();
@@ -53,26 +59,31 @@ public class DrawController {
 				double distance = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 				if (distance < maxDistance && distance < minDistance) {
 					nearPoint = nowCircle;
+					nearShape = nowShape;
+					location=i;
 					minDistance = distance;
 				}
 			}
 		}
 		if (nearPoint != null) {
+			nearShape.addConnectionInfo(new ConnectionInfo(line, location, part));
 			if (type.equals("end")) {
-				dragLine.endMove(nearPoint.getCenterX(), nearPoint.getCenterY());
+				line.endMove(nearPoint.getCenterX(), nearPoint.getCenterY());
+				line.setTailLink(nearShape);
 			} else if (type.equals("start")) {
-				dragLine.startMove(nearPoint.getCenterX(), nearPoint.getCenterY());
+				line.startMove(nearPoint.getCenterX(), nearPoint.getCenterY());
+				line.setHeadLink(nearShape);
 			}
 		}
 	}
 
-	public void setDragLine(MyLine dragLine) {
-		this.dragLine = dragLine;
-	}
-
-	public boolean isDraggingLine() {
-		return dragLine != null;
-	}
+//	public void setDragLine(MyLine dragLine) {
+//		this.dragLine = dragLine;
+//	}
+//
+//	public boolean isDraggingLine() {
+//		return dragLine != null;
+//	}
 
 	public void setNearPoint(Circle nearPoint) {
 		this.nearPoint = nearPoint;

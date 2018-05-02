@@ -12,7 +12,7 @@ public class MyLine extends Line {
 	// 图形的工厂编号
 	protected int factoryID;
 	// 所在区域及其管理者
-	protected AnchorPane drawingArea;
+	protected AnchorPane drawingArea; 
 	protected DrawController drawController;
 	// 坐标信息
 	protected double startX;
@@ -25,6 +25,9 @@ public class MyLine extends Line {
 	private Polygon triangle;
 	private Line line;
 	private Circle circle;
+	//连接的图形
+	private MyShape headLinkShape;
+	private MyShape tailLinkShape;	
 	// 状态变量
 	private boolean isOnTheLine = false;
 
@@ -43,7 +46,13 @@ public class MyLine extends Line {
 		setShape();
 		startListening();
 	}
-
+	public void setHeadLink(MyShape shape) {
+		this.headLinkShape=shape;
+	}
+	public void setTailLink(MyShape shape) {
+		this.tailLinkShape=shape;
+	}
+	
 	public void setShape() {
 		double dx = endX - startX;
 		double dy = endY - startY;
@@ -118,21 +127,17 @@ public class MyLine extends Line {
 		});
 		triangle.setOnMouseReleased(e -> {
 			this.setToTop();
-			drawController.setDragLine(this);
-			drawController.connect(e.getX(),e.getY(),"end");
-			drawController.setDragLine(null);
+			if(tailLinkShape!=null)tailLinkShape.delConnectionInfo(this);
+			drawController.connect(e.getX(),e.getY(),"end",this);
 		});
 		circle.setOnMouseDragged(e -> {
-			drawController.setDragLine(this);
-			drawController.setDragLine(this);
 			drawController.checkDistanceToPoints(e.getX(), e.getY());
 			startMove(e.getX(), e.getY());
 		});
 		circle.setOnMouseReleased(e -> {
 			this.setToTop();
-			drawController.setDragLine(this);
-			drawController.connect(e.getX(),e.getY(),"start");
-			drawController.setDragLine(null);
+			if(headLinkShape!=null)headLinkShape.delConnectionInfo(this);
+			drawController.connect(e.getX(),e.getY(),"start",this);
 		});
 		/*
 		 * 直线的旋转和放缩比较简单就是根据三角形的位置来进行调整，直接设置末端为鼠标当前位置即可 直线的平移比较复杂，具体实现如下：
@@ -158,6 +163,8 @@ public class MyLine extends Line {
 		});
 		line.setOnMouseReleased(e->{
 			this.setToTop();
+			if(headLinkShape!=null)headLinkShape.delConnectionInfo(this);
+			if(tailLinkShape!=null)tailLinkShape.delConnectionInfo(this);
 		});
 	}
 }

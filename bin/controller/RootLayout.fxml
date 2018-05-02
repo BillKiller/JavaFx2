@@ -9,9 +9,9 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="rootLayout" prefHeight="900.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.RootLayoutController">
+<BorderPane fx:id="rootLayout" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootLayoutController">
   <center>
-    <ScrollPane prefHeight="875.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+    <ScrollPane prefHeight="868.0" prefWidth="786.0" BorderPane.alignment="CENTER">
       <content>
         <AnchorPane fx:id="drawingArea" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1000.0">
           <children>
@@ -28,19 +28,7 @@
   <left>
     <AnchorPane fx:id="shapeArea" blendMode="SRC_ATOP" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
       <children>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="          Shape           " textAlignment="CENTER" underline="true" wrappingWidth="205.30029296875" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-2.0">
-          <effect>
-            <Lighting bumpInput="$null">
-              <light>
-                <javafx.scene.effect.Light.Distant color="#1cc32a" />
-              </light>
-            </Lighting>
-          </effect>
-          <font>
-            <Font name="System Bold" size="21.0" />
-          </font>
-        </Text>
-        <VBox layoutX="27.0" layoutY="32.0" spacing="20.0">
+        <VBox fx:id="shapeVBox" alignment="TOP_CENTER" layoutY="59.0" prefHeight="809.0" prefWidth="201.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
           <children>
             <ImageView fx:id="RoundedRectangleImage" fitHeight="98.0" fitWidth="153.0">
               <image>
@@ -74,6 +62,20 @@
             </ImageView>
           </children>
         </VBox>
+            <VBox fx:id="lineVBox" layoutX="2.0" layoutY="30.0" prefHeight="824.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+               <children>
+                  <ImageView fx:id="StraightLineImage" fitHeight="200.0" fitWidth="208.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/arrow.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <Button fx:id="shapeORLine" mnemonicParsing="false" onAction="#changeShapeORLine" prefHeight="38.0" prefWidth="201.0" text="Shape" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Button>
       </children>
     </AnchorPane>
   </left>

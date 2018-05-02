@@ -1,6 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+
 import org.omg.CORBA.FloatSeqHelper;
+import org.omg.PortableInterceptor.IORInfoOperations;
+
+import com.sun.media.jfxmedia.control.VideoDataBuffer;
 
 import controller.DrawController;
 import javafx.beans.property.BooleanProperty;
@@ -13,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 
@@ -47,6 +53,8 @@ public abstract class MyShape {
 	private Status status;
 	private Text text;
 	protected DrawPoints drawPoints;
+	// 记录连接线
+	ArrayList<ConnectionInfo> connectionInfos=new ArrayList<>();
 	// 放缩RESIZE使用使用的常量
 	private final static int minReSize = 5;
 	private final static int[][] RESIZ_DRECTION = { { 0, -1, -1 }, { 1, -1, 0 }, { 2, -1, 1 }, { 3, 0, -1 },
@@ -54,8 +62,6 @@ public abstract class MyShape {
 	private final static Cursor[] hand = { Cursor.NW_RESIZE, Cursor.W_RESIZE, Cursor.SW_RESIZE, Cursor.N_RESIZE,
 			Cursor.MOVE, Cursor.S_RESIZE, Cursor.NE_RESIZE, Cursor.E_RESIZE, Cursor.SE_RESIZE };
 	private Group pane;
-	
-//	private Shape 
 	
 	// --getter and setter
 	public Shape getShape() {
@@ -177,7 +183,21 @@ public abstract class MyShape {
 	public void setText(Text text) {
 		this.text = text;
 	}
-
+	//添加连接信息
+	public void addConnectionInfo(ConnectionInfo info) {
+		connectionInfos.add(info);
+	}
+	//删除连接信息
+	public void delConnectionInfo(MyLine line) {
+		ConnectionInfo delInfo=null;
+		for(ConnectionInfo info:connectionInfos) {
+			if(info.getLine()==line) {
+				System.out.println("delOK");
+				delInfo=info;
+			}
+		}
+		if(delInfo!=null)connectionInfos.remove(delInfo);
+	}
 	// -----------constructor------------------------
 	public MyShape(double x, double y, double width, double height) {
 		this.x = x;
@@ -239,7 +259,6 @@ public abstract class MyShape {
 	 */
 	public void addListener() {
 		setOnDrag();
-//		setOnMouseEnter();
 		setOnRealse();
 		resizeCursorListener();
 		resizeListener();
@@ -309,11 +328,28 @@ public abstract class MyShape {
 		update();
 	}
 
+	public void lineMove() {
+		for(ConnectionInfo info:connectionInfos) {
+			if(info.getConnectionPart().equals("end")) {
+				double centerX,centerY;
+				centerX=drawPoints.getCircles()[info.getLocation()].getCenterX();
+				centerY=drawPoints.getCircles()[info.getLocation()].getCenterY();
+				info.getLine().endMove(centerX,centerY);
+			}else if(info.getConnectionPart().equals("start")){
+				double centerX,centerY;
+				centerX=drawPoints.getCircles()[info.getLocation()].getCenterX();
+				centerY=drawPoints.getCircles()[info.getLocation()].getCenterY();
+				info.getLine().startMove(centerX,centerY);
+			}
+		}
+	}
+	
 	public void Move(double x, double y) {
 		double posX = x - this.getShape().getParent().getLayoutX();
 		double posY = y - this.getShape().getParent().getLayoutY();
 		booleanProperty.setValue(true);
 		updateLocation(posX, posY);
+		lineMove();
 	}
 
 	/*

@@ -1,9 +1,11 @@
 package controller;
 
+import java.awt.Image;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.sun.javafx.perf.PerformanceTracker.SceneAccessor;
+import com.sun.javafx.tk.TKDragGestureListener;
 
 import controller.DrawController;
 import controller.ShapeFactory;
@@ -22,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import model.CurvedRectangle;
@@ -45,6 +48,7 @@ public class RootLayoutController implements Initializable {
 	private TextField textfield;
 	@FXML
 	private Button Button;
+	//shape
 	@FXML
 	private ImageView RoundedRectangleImage;
 	@FXML
@@ -57,7 +61,9 @@ public class RootLayoutController implements Initializable {
 	private ImageView CircularImage;
 	@FXML
 	private ImageView CurvedRectangularImage;
-
+	//line
+	@FXML
+	private ImageView StraightLineImage;
 
 	@FXML
 	private TextField textFieldH;
@@ -73,7 +79,30 @@ public class RootLayoutController implements Initializable {
 
 	@FXML
 	private Button button2;
-
+	
+	@FXML
+	private Button shapeORLine;
+	@FXML
+	private VBox shapeVBox;
+	@FXML
+	private VBox lineVBox;
+	private boolean isShape;
+	@FXML
+	public void changeShapeORLine() {
+		if(isShape) {
+			isShape=false;
+			shapeORLine.setText("Line");
+			shapeVBox.setVisible(false);
+			lineVBox.setVisible(true);
+		}else {
+			isShape=true;
+			shapeORLine.setText("Shape");
+			shapeVBox.setVisible(true);
+			lineVBox.setVisible(false);
+		}
+	}
+	
+	
 	private DrawController drawController;
 	private PropertyController propertyController;
 	ShapeFactory shapeFactory;
@@ -97,8 +126,15 @@ public class RootLayoutController implements Initializable {
 		InputRectangleImage.setCursor(Cursor.HAND);
 		CircularImage.setCursor(Cursor.HAND);
 		CurvedRectangularImage.setCursor(Cursor.HAND);
+		StraightLineImage.setCursor(Cursor.HAND);
+		
 		drawController=new DrawController(drawingArea);
 		shapeFactory=new ShapeFactory(drawingArea,drawController);
+		//×ó²àÀ¸³õÊ¼»¯
+		isShape=true;
+		shapeVBox.setVisible(true);
+		lineVBox.setVisible(false);
+		
 		MyLine myLine = new MyLine(500, 500, 300, 200);
 		myLine.getPane(drawingArea,drawController);
 
@@ -110,12 +146,11 @@ public class RootLayoutController implements Initializable {
 	    drawingArea.setOnKeyPressed(e->{
 	    	System.out.println("asdasd");
 	    });
-//	    dccrawController.setScene(scene);
-
-//	    \
 
 		// »æÍ¼ÇøÓòÊó±ê¼àÌý
-
+//	    drawingArea.setOnKeyPressed(e->{
+//	    	System.out.println("hhee");
+//	    });
 		drawingArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {

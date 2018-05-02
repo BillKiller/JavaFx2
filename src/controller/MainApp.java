@@ -26,9 +26,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Flow Graph Editor");
-
         initRootLayout();
-
     }
 
     /**
