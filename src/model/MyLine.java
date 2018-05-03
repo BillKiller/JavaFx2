@@ -19,18 +19,19 @@ public class MyLine extends Line {
 	protected double startY;
 	protected double endX;
 	protected double endY;
-	private double lastX;
-	private double lastY;
+	protected double lastX;
+	protected double lastY;
 	// Shape
-	private Polygon triangle;
-	private Line line;
-	private Circle circle;
-	//连接的图形
-	private MyShape headLinkShape;
-	private MyShape tailLinkShape;	
+	protected Polygon triangle;
+	protected Line line;
+	protected Circle circle;
+	//连接的图形  
+	protected MyShape headLinkShape;
+	protected MyShape tailLinkShape;	
 	// 状态变量
-	private boolean isOnTheLine = false;
-
+	protected boolean isOnTheLine = false;
+	
+	public MyLine() {}
 	public MyLine(double startX, double startY, double endX, double endY) {
 		line = new Line(startX, startY, endX, endY);
 		circle = new Circle();
@@ -52,7 +53,15 @@ public class MyLine extends Line {
 	public void setTailLink(MyShape shape) {
 		this.tailLinkShape=shape;
 	}
-	
+	public Circle getCircle() {
+		return this.circle;
+	}
+	public Line getLine() {
+		return this.line;
+	}
+	public Polygon getTriangle() {
+		return this.triangle;
+	}
 	public void setShape() {
 		double dx = endX - startX;
 		double dy = endY - startY;
@@ -78,6 +87,9 @@ public class MyLine extends Line {
 		line.setEndX(this.endX);
 		line.setEndY(this.endY);
 	}
+//	public void setToShape(Double[] list){
+//		
+//	}
 
 	public void getPane(AnchorPane drawingArea, DrawController drawController) {
 		drawingArea.getChildren().add(line);
@@ -101,7 +113,7 @@ public class MyLine extends Line {
 		setShape();
 	}
 
-	private void move(double dx, double dy) {
+	protected void move(double dx, double dy) {
 		// 此处移动是根据相对位移而不是绝对位置
 		startX = startX + dx;
 		startY = startY + dy;
@@ -116,7 +128,7 @@ public class MyLine extends Line {
 		setShape();
 	}
 
-	private void startListening() {
+	protected void startListening() {
 		triangle.setCursor(Cursor.HAND);
 		circle.setCursor(Cursor.HAND);
 		line.setCursor(Cursor.MOVE);

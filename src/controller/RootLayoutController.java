@@ -27,8 +27,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
+import model.BrokenLine;
 import model.CurvedRectangle;
 import model.Decision;
+import model.DogLegLine;
 import model.InputRectangle;
 import model.MyCircle;
 import model.MyLine;
@@ -135,7 +137,7 @@ public class RootLayoutController implements Initializable {
 		shapeVBox.setVisible(true);
 		lineVBox.setVisible(false);
 		
-		MyLine myLine = new MyLine(500, 500, 300, 200);
+		BrokenLine myLine = new BrokenLine(500, 500, 300, 200);
 		myLine.getPane(drawingArea,drawController);
 
 	    propertyController = new PropertyController(textFieldX,textFieldY,textFieldW,textFieldH,textArea);
