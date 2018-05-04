@@ -12,7 +12,7 @@ public class MyLine extends Line {
 	// 图形的工厂编号
 	protected int factoryID;
 	// 所在区域及其管理者
-	protected AnchorPane drawingArea; 
+	protected AnchorPane drawingArea;
 	protected DrawController drawController;
 	// 坐标信息
 	protected double startX;
@@ -25,13 +25,15 @@ public class MyLine extends Line {
 	protected Polygon triangle;
 	protected Line line;
 	protected Circle circle;
-	//连接的图形  
+	//连接的图形
 	protected MyShape headLinkShape;
-	protected MyShape tailLinkShape;	
+	protected MyShape tailLinkShape;
 	// 状态变量
 	protected boolean isOnTheLine = false;
-	
-	public MyLine() {}
+
+	public MyLine() {
+
+	}
 	public MyLine(double startX, double startY, double endX, double endY) {
 		line = new Line(startX, startY, endX, endY);
 		circle = new Circle();
@@ -88,7 +90,7 @@ public class MyLine extends Line {
 		line.setEndY(this.endY);
 	}
 //	public void setToShape(Double[] list){
-//		
+//
 //	}
 
 	public void getPane(AnchorPane drawingArea, DrawController drawController) {
@@ -100,9 +102,7 @@ public class MyLine extends Line {
 	}
 
 	public void setToTop() {
-		drawingArea.getChildren().remove(line);
-		drawingArea.getChildren().remove(circle);
-		drawingArea.getChildren().remove(triangle);
+		delete();
 		getPane(drawingArea, drawController);
 	}
 
@@ -127,7 +127,11 @@ public class MyLine extends Line {
 		startY = y - triangle.getParent().getLayoutY();
 		setShape();
 	}
-
+	public void delete(){
+		drawingArea.getChildren().remove(line);
+		drawingArea.getChildren().remove(circle);
+		drawingArea.getChildren().remove(triangle);
+	}
 	protected void startListening() {
 		triangle.setCursor(Cursor.HAND);
 		circle.setCursor(Cursor.HAND);

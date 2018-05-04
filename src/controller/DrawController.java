@@ -32,26 +32,41 @@ public class DrawController {
 
 	private AnchorPane drawingArea = null;
 	private ArrayList<MyShape> list = new ArrayList<>();
+	private ArrayList<MyLine> listLine = new ArrayList<MyLine>();
 	private MyShape workShape;
+	private KeyBoardManager keyBoardManager;
 	// 小管家
 	private PropertyController propertyController;
+	private Compiler compiler;
 	// 正在拖动的线 和 最近的连接点
 	private MyLine dragLine;
 	private Circle nearPoint;
 	// 连接点显示的最大距离
 	private double maxDistance = 50;
-
+	private double isChange ;
+	public DrawController(AnchorPane drawArea) {
+		drawingArea = drawArea;
+	}
 	// 连接线和图形
-	public void connect(double x1, double y1, String type,MyLine line) {
+
+	public Compiler getCompiler() {
+		return compiler;
+	}
+
+	public void setCompiler(Compiler compiler) {
+		this.compiler = compiler;
+	}
+
+	public void connect(double x1, double y1, String type, MyLine line) {
 		double minDistance = 100000;
 		nearPoint = null;
-		MyShape nearShape=null;
-		int location=0;
-		String part=type;
+		MyShape nearShape = null;
+		int location = 0;
+		String part = type;
 		for (MyShape nowShape : list) {
-			Circle[] circles=nowShape.getDrawPoints().getCircles();
-			for(int i=0;i<4;i++) {
-				Circle nowCircle=circles[i];
+			Circle[] circles = nowShape.getDrawPoints().getCircles();
+			for (int i = 0; i < 4; i++) {
+				Circle nowCircle = circles[i];
 				nowCircle.setVisible(false);
 				double x2, y2;
 				x2 = nowCircle.getCenterX();
@@ -60,7 +75,7 @@ public class DrawController {
 				if (distance < maxDistance && distance < minDistance) {
 					nearPoint = nowCircle;
 					nearShape = nowShape;
-					location=i;
+					location = i;
 					minDistance = distance;
 				}
 			}
@@ -76,14 +91,6 @@ public class DrawController {
 			}
 		}
 	}
-
-//	public void setDragLine(MyLine dragLine) {
-//		this.dragLine = dragLine;
-//	}
-//
-//	public boolean isDraggingLine() {
-//		return dragLine != null;
-//	}
 
 	public void setNearPoint(Circle nearPoint) {
 		this.nearPoint = nearPoint;
@@ -121,11 +128,6 @@ public class DrawController {
 		this.propertyController = propertyController;
 	}
 
-	public DrawController(AnchorPane drawArea) {
-		drawingArea = drawArea;
-		System.out.println(drawArea);
-
-	}
 
 	public void addDrawArea() {
 		int index = list.size() - 1;
@@ -134,8 +136,23 @@ public class DrawController {
 	}
 
 	public void regriste(MyShape shape) {
-		if (shape != null)
+		if (shape != null) {
 			list.add(shape);
+			addDrawArea();
+		}
+	}
+
+	public void addLineDrawArea() {
+		int index = listLine.size() - 1;
+		MyLine shape = (listLine.get(index));
+		shape.getPane(drawingArea, this);
+	}
+
+	public void regristeLine(MyLine shape) {
+		if (shape != null) {
+			listLine.add(shape);
+			addLineDrawArea();
+		}
 	}
 
 	public void delete(MyShape shape) {
@@ -145,19 +162,29 @@ public class DrawController {
 	}
 
 	public void delete() {
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).isSelected()) {
-				list.get(i).delet();
-				System.out.println("hehe");
-				list.remove(i);
+		boolean remain = false;// 由于删除会导致list元素变动所以为了安全，从第一元素接着找起
+		while (true) {
+			remain = false;
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).isSelected()) {
+					list.get(i).delet();
+					list.remove(i);
+					remain = true;
+					break;
+				}
+			}
+			if (!remain) {
+				break;
 			}
 		}
 	}
 
 	public void clearAllOnEdit() {
-		for (int i = 0; i < list.size(); i++) {
-			list.get(i).setISelected(false);
-			list.get(i).getEditer().disapper();
+		if(!keyBoardManager.isCtrl()){
+			for (int i = 0; i < list.size(); i++) {
+				list.get(i).setISelected(false);
+				list.get(i).getEditer().disapper();
+			}
 		}
 	}
 
@@ -177,16 +204,37 @@ public class DrawController {
 		return shape;
 	}
 
-	/*
-	 * 监听器
-	 */
-	// 键盘监听器
-	public void deletListener() {
-		drawingArea.setOnKeyPressed(e -> {
-			System.out.println("kkk");
-			if (e.getCode() == KeyCode.DELETE) {
-				delete();
-			}
-		});
+	public void reset(){
+		for(int i =0;i<list.size();i++){
+			list.get(i).delet();
+		}
+		list.clear();
 	}
+	public KeyBoardManager getKeyBoardManager() {
+		return keyBoardManager;
+	}
+
+	public void setKeyBoardManager() {
+		this.keyBoardManager = new KeyBoardManager(this);
+	}
+
+	public AnchorPane getDrawingArea() {
+		return drawingArea;
+	}
+
+	public void setDrawingArea(AnchorPane drawingArea) {
+		this.drawingArea = drawingArea;
+	}
+	public void saveChange(){
+		compiler.getTextArea().setText(getCode());
+		System.out.println("compire"+compiler.getTextArea().getText());
+	}
+	public String getCode(){
+		String code ="";
+		for(int i =0;i<list.size();i++){
+			code = code + list.get(i).toString();
+		}
+		return code;
+	}
+
 }

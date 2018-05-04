@@ -30,7 +30,7 @@ import javafx.scene.shape.Shape;
 import model.BrokenLine;
 import model.CurvedRectangle;
 import model.Decision;
-import model.DogLegLine;
+import model.BrokenLine;
 import model.InputRectangle;
 import model.MyCircle;
 import model.MyLine;
@@ -52,21 +52,22 @@ public class RootLayoutController implements Initializable {
 	private Button Button;
 	//shape
 	@FXML
-	private ImageView RoundedRectangleImage;
+	private ImageView RoundRectangle;
 	@FXML
-	private ImageView RectangleImage;
+	private ImageView Rectangle;
 	@FXML
-	private ImageView DecisionImage;
+	private ImageView Decision;
 	@FXML
-	private ImageView InputRectangleImage;
+	private ImageView InputRectangle;
 	@FXML
-	private ImageView CircularImage;
+	private ImageView Circular;
 	@FXML
-	private ImageView CurvedRectangularImage;
+	private ImageView CurvedRectangle;
 	//line
 	@FXML
-	private ImageView StraightLineImage;
-
+	private ImageView StraightLine;
+	@FXML
+	private AnchorPane keyBoardPane;
 	@FXML
 	private TextField textFieldH;
 	@FXML
@@ -81,7 +82,7 @@ public class RootLayoutController implements Initializable {
 
 	@FXML
 	private Button button2;
-	
+
 	@FXML
 	private Button shapeORLine;
 	@FXML
@@ -89,7 +90,17 @@ public class RootLayoutController implements Initializable {
 	@FXML
 	private VBox lineVBox;
 	private boolean isShape;
+
 	@FXML
+	private TextArea codeArea;
+
+	@FXML
+	private Button btn;
+
+
+
+	private Compiler compiler;
+
 	public void changeShapeORLine() {
 		if(isShape) {
 			isShape=false;
@@ -103,52 +114,47 @@ public class RootLayoutController implements Initializable {
 			lineVBox.setVisible(false);
 		}
 	}
-	
-	
+
+
 	private DrawController drawController;
 	private PropertyController propertyController;
 	ShapeFactory shapeFactory;
 	String selectShape = null;
 
-
-	@FXML
-	public void onClick(){
-		String kind=textfield.getText();
-		MyShape myShape=shapeFactory.product(kind);
-		if(myShape !=null){
-			myShape.getPane(drawingArea, drawController);
-		}
-	}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// 初始化改变图形上面的鼠标图案
-		RoundedRectangleImage.setCursor(Cursor.HAND);
-		RectangleImage.setCursor(Cursor.HAND);
-		DecisionImage.setCursor(Cursor.HAND);
-		InputRectangleImage.setCursor(Cursor.HAND);
-		CircularImage.setCursor(Cursor.HAND);
-		CurvedRectangularImage.setCursor(Cursor.HAND);
-		StraightLineImage.setCursor(Cursor.HAND);
-		
+		RoundRectangle.setCursor(Cursor.HAND);
+		Rectangle.setCursor(Cursor.HAND);
+		Decision.setCursor(Cursor.HAND);
+		InputRectangle.setCursor(Cursor.HAND);
+		Circular.setCursor(Cursor.HAND);
+		CurvedRectangle.setCursor(Cursor.HAND);
+		StraightLine.setCursor(Cursor.HAND);
+
 		drawController=new DrawController(drawingArea);
 		shapeFactory=new ShapeFactory(drawingArea,drawController);
 		//左侧栏初始化
 		isShape=true;
 		shapeVBox.setVisible(true);
 		lineVBox.setVisible(false);
-		
-		BrokenLine myLine = new BrokenLine(500, 500, 300, 200);
-		myLine.getPane(drawingArea,drawController);
+		compiler = new Compiler();
+		compiler.setShapeFactory(shapeFactory);
+		drawController.setCompiler(compiler);
+		compiler.setTextArea(codeArea);
+		btn.setOnMouseClicked(e->{
+				compiler.compireProduce(codeArea.getText());
+		});
+
+		//BrokenLine myLine = new BrokenLine(500, 500, 300, 200);
+		//myLine.getPane(drawingArea,drawController);
 
 	    propertyController = new PropertyController(textFieldX,textFieldY,textFieldW,textFieldH,textArea);
 	    System.out.println(button2);
 	    propertyController.setButton(button2);
 	    propertyController.edit();
 	    drawController.setPropertyController(propertyController);
-	    drawingArea.setOnKeyPressed(e->{
-	    	System.out.println("asdasd");
-	    });
-
+	    drawController.setKeyBoardManager();
 		// 绘图区域鼠标监听
 //	    drawingArea.setOnKeyPressed(e->{
 //	    	System.out.println("hhee");
@@ -156,14 +162,16 @@ public class RootLayoutController implements Initializable {
 		drawingArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-//				System.out.println("draw");
+				//drawController.clearAllOnEdit();
+				keyBoardPane.requestFocus();
 				if (event.getClickCount() == 1 && selectShape != null) {
 					double x, y;
 					x = event.getX();
 					y = event.getY();
-					System.out.println(x + " " + y);
-					MyShape myShape = shapeFactory.produceShapeByImage(selectShape, x, y);
-					drawController.addDrawArea();
+
+					shapeFactory.produce(selectShape, x, y);
+//					drawController.addDrawArea();
+
 					selectShape = null;
 				}
 				if(event.getClickCount() ==1 && selectShape == null){
@@ -171,12 +179,6 @@ public class RootLayoutController implements Initializable {
 						drawController.getPropertyController().setWorkShape(drawController.workingShape());
 						//点击一下鼠标，这时候总管家去arraylist里面寻找，寻找到当前处在编辑状态的Shape，并使它位于右侧属性栏管家管理
 						drawController.getPropertyController().update();
-				}
-				if(event.getClickCount()==2 && selectShape == null){
-					//点两下空白区域，就清楚掉所有的shape状态
-					drawController.clearAllOnEdit();
-					drawController.getPropertyController().setWorkShape(null);
-					drawController.getPropertyController().update();
 				}
 			}
 		});
@@ -191,14 +193,14 @@ public class RootLayoutController implements Initializable {
 						x=300;
 						y=300;
 						selectShape=((ImageView)event.getTarget()).getId();
-						MyShape myShape = shapeFactory.produceShapeByImage(selectShape);
-						drawController.addDrawArea();
+						shapeFactory.produce(selectShape, x, y);
 						selectShape = null;
 					}
 				} else if (event.getClickCount() == 1) {
 					if (event.getTarget().getClass() == ImageView.class) {
 						ImageView nowImage = (ImageView) event.getTarget();
 						selectShape = nowImage.getId();
+
 					}
 				}
 			}

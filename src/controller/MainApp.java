@@ -38,7 +38,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("/controller/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
-            //debug
+            //debug	
 //            MyLine myLine = new MyLine(500, 500,600,700);
 //            myLine.getPane(rootLayout);
             //用rootLayout初始化一个scene，放到stage上展示

@@ -1,5 +1,6 @@
 package model;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import org.omg.CORBA.FloatSeqHelper;
@@ -62,7 +63,7 @@ public abstract class MyShape {
 	private final static Cursor[] hand = { Cursor.NW_RESIZE, Cursor.W_RESIZE, Cursor.SW_RESIZE, Cursor.N_RESIZE,
 			Cursor.MOVE, Cursor.S_RESIZE, Cursor.NE_RESIZE, Cursor.E_RESIZE, Cursor.SE_RESIZE };
 	private Group pane;
-	
+
 	// --getter and setter
 	public Shape getShape() {
 		return this.shape;
@@ -273,6 +274,7 @@ public abstract class MyShape {
 				// 如果物体发生改变说明这个物体是当前工作的Shape，此时右侧的属性栏显示这个Shape的属性
 				drawController.getPropertyController().setWorkShape(this);
 				drawController.getPropertyController().update();
+				drawController.saveChange();
 			}
 		});
 	}
@@ -297,19 +299,20 @@ public abstract class MyShape {
 //			e.consume();
 //		});
 //	}
-
 	public void setOnRealse() {
 		shape.setOnMouseReleased(e -> {
 			this.setToTop();
 			this.booleanProperty.setValue(false);
 			status.setRelease();
 			if (isSelected == false) {
+				drawController.clearAllOnEdit();
 				isSelected = true;
 				editer.show(x, y);
 			} else {
 				isSelected = false;
 				editer.disapper();
 			}
+			System.out.println(toString());
 		});
 	}
 
@@ -343,7 +346,7 @@ public abstract class MyShape {
 			}
 		}
 	}
-	
+
 	public void Move(double x, double y) {
 		double posX = x - this.getShape().getParent().getLayoutX();
 		double posY = y - this.getShape().getParent().getLayoutY();
@@ -457,8 +460,9 @@ public abstract class MyShape {
 
 	@Override
 	public String toString() {
-		String tostring = getClass().getSimpleName() + "(" + this.x + "," + this.y + "," + this.width + ","
-				+ this.height + ")" + "[" + text.getText() + "]";
+		DecimalFormat df = new DecimalFormat("#.00");
+		String tostring = getClass().getSimpleName() + "(" + df.format(this.x) + "," + df.format(this.y) + "," + df.format(this.width) + ","
+				+ df.format(this.height) + ")" + "[ " + text.getText() + " ]" + " ;\n";
 		return tostring;
 	}
 }

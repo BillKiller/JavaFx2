@@ -29,10 +29,10 @@ public class BrokenLine extends MyLine{
 		super.startListening();
 		addLineListening();
 	}
-	
+
 	@Override
 	public void setShape() {
-		
+
 		double dx = 0;
 		double dy = endY - startY;
 		double k = 1 / Math.sqrt(dx * dx + dy * dy);
@@ -40,7 +40,7 @@ public class BrokenLine extends MyLine{
 		double v = (double) StandardNum.TRIANBLE_LEN / Math.sqrt(dx * dx + dy * dy);
 		double mX = endX - u * dx;
 		double mY = endY - u * dy;
-		
+
 		double aX = v * dy + mX;
 		double aY = v * (-1 * dx) + mY;
 
@@ -53,11 +53,11 @@ public class BrokenLine extends MyLine{
 		circle.setCenterX(startX);
 		circle.setCenterY(startY);
 		xLine.setStartX(startX);
-		xLine.setStartY(startY); 
+		xLine.setStartY(startY);
 		xLine.setEndX(this.endX);
 		xLine.setEndY(startY);
 		yLine.setStartX(this.endX);
-		yLine.setStartY(startY); 
+		yLine.setStartY(startY);
 		yLine.setEndX(this.endX);
 		yLine.setEndY(this.endY);
 	}
@@ -103,8 +103,8 @@ public class BrokenLine extends MyLine{
 			if(headLinkShape!=null)headLinkShape.delConnectionInfo(this);
 			if(tailLinkShape!=null)tailLinkShape.delConnectionInfo(this);
 		});
-		
-		
+
+
 		yLine.setOnMouseEntered(e -> {
 			if (!isOnTheLine) {
 				lastX = e.getX();

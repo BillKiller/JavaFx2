@@ -9,14 +9,15 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="rootLayout" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootLayoutController">
+<BorderPane fx:id="rootLayout" prefHeight="900.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.RootLayoutController">
   <center>
     <ScrollPane prefHeight="868.0" prefWidth="786.0" BorderPane.alignment="CENTER">
       <content>
         <AnchorPane fx:id="drawingArea" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1000.0">
           <children>
-            <TextField fx:id="textfield" layoutX="63.0" layoutY="126.0" prefWidth="200.0" />
-            <Button fx:id="Button" layoutX="110.0" layoutY="191.0" mnemonicParsing="false" onMouseClicked="#onClick" text="Button" />
+            <AnchorPane fx:id="keyBoardPane" layoutX="500.0" layoutY="750.0" prefHeight="200.0" prefWidth="200.0" />
+            <TextArea fx:id="codeArea" layoutX="14.0" layoutY="409.0" prefHeight="258.0" prefWidth="734.0" wrapText="true" />
+            <Button id="Button" fx:id="btn" layoutX="645.0" layoutY="672.0" mnemonicParsing="false" text="Button" />
           </children>
           <effect>
             <Blend />
@@ -28,54 +29,59 @@
   <left>
     <AnchorPane fx:id="shapeArea" blendMode="SRC_ATOP" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
       <children>
-        <VBox fx:id="shapeVBox" alignment="TOP_CENTER" layoutY="59.0" prefHeight="809.0" prefWidth="201.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+        <VBox fx:id="shapeVBox" alignment="TOP_CENTER" prefHeight="809.0" prefWidth="201.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
           <children>
-            <ImageView fx:id="RoundedRectangleImage" fitHeight="98.0" fitWidth="153.0">
+            <ImageView id="RoundRectangleImage" fx:id="RoundRectangle" fitHeight="98.0" fitWidth="153.0">
               <image>
                 <Image url="@../../image/start.png" />
               </image>
             </ImageView>
-            <ImageView fx:id="RectangleImage" fitHeight="98.0" fitWidth="147.0">
+            <ImageView id="RectangleImage" fx:id="Rectangle" fitHeight="98.0" fitWidth="147.0">
               <image>
                 <Image url="@../../image/process.png" />
               </image>
             </ImageView>
-            <ImageView fx:id="DecisionImage" fitHeight="98.0" fitWidth="147.0">
+            <ImageView id="DecisionImage" fx:id="Decision" fitHeight="98.0" fitWidth="147.0">
               <image>
                 <Image url="@../../image/decision.png" />
               </image>
             </ImageView>
-            <ImageView fx:id="InputRectangleImage" fitHeight="98.0" fitWidth="147.0">
+            <ImageView id="InputRectangleImage" fx:id="InputRectangle" fitHeight="98.0" fitWidth="147.0">
               <image>
                 <Image url="@../../image/data.png" />
               </image>
             </ImageView>
-            <ImageView fx:id="CircularImage" fitHeight="98.0" fitWidth="147.0">
+            <ImageView id="CircularImage" fx:id="Circular" fitHeight="98.0" fitWidth="147.0">
               <image>
                 <Image url="@../../image/prepare.png" />
               </image>
             </ImageView>
-            <ImageView fx:id="CurvedRectangularImage" fitHeight="98.0" fitWidth="147.0">
+            <ImageView id="CurvedRectangleImage" fx:id="CurvedRectangle" fitHeight="98.0" fitWidth="147.0">
               <image>
                 <Image url="@../../image/document.png" />
               </image>
             </ImageView>
           </children>
         </VBox>
-            <VBox fx:id="lineVBox" layoutX="2.0" layoutY="30.0" prefHeight="824.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
-               <children>
-                  <ImageView fx:id="StraightLineImage" fitHeight="200.0" fitWidth="208.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../image/arrow.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
-            <Button fx:id="shapeORLine" mnemonicParsing="false" onAction="#changeShapeORLine" prefHeight="38.0" prefWidth="201.0" text="Shape" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold Italic" size="24.0" />
-               </font>
-            </Button>
+        <VBox fx:id="lineVBox" alignment="TOP_CENTER" prefHeight="824.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="60.0">
+          <children>
+            <ImageView id="StraightLineImage" fx:id="StraightLine" fitHeight="134.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../image/arrow.png" />
+              </image>
+            </ImageView>
+            <ImageView fx:id="BrokenLine" fitHeight="120.69750391940626" fitWidth="159.86424255371094" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../image/BrokenLine.png" />
+              </image>
+            </ImageView>
+          </children>
+        </VBox>
+        <Button fx:id="shapeORLine" mnemonicParsing="false" onAction="#changeShapeORLine" prefHeight="38.0" prefWidth="201.0" text="Shape" textAlignment="CENTER">
+          <font>
+            <Font name="System Bold Italic" size="24.0" />
+          </font>
+        </Button>
       </children>
     </AnchorPane>
   </left>
