@@ -1,5 +1,7 @@
 package model;
 
+import java.text.DecimalFormat;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -51,4 +53,10 @@ public class MyRectangle extends  MyShape {
     		this.leftY = y - height;
     		updateLocation(this.x, this.y);
     }
+	public String toString() {
+		DecimalFormat df = new DecimalFormat("#.000");
+		String tostring = getClass().getSimpleName() + "(" + df.format(this.x) + "," + df.format(this.y) + "," + df.format(this.width) + ","
+				+ df.format(this.height) + ")" + "[ " + text.getText() + " ]" + " ;\n";
+		return tostring;
+	}
 }

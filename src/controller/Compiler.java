@@ -33,9 +33,11 @@ public class Compiler {
 	public String getText(String shape){
 		Pattern pattern = Pattern.compile("(?<=\\[)[^\\]]+");
 		Matcher matcher = pattern.matcher(shape);
-		String temp = null;
+		String temp = " ";
 		if(matcher.find()){
 			temp = matcher.group();
+			temp=temp.trim();
+			return temp+" ";
 		}
 		return temp;
 	}

@@ -47,10 +47,11 @@ public class DrawController {
 	private Circle nearPoint;
 	// 连接点显示的最大距离
 	private double maxDistance = 50;
-	private double isChange ;
+	private double isChange;
 
 	//
-	private boolean isReStroing=false;
+	private boolean isReStroing = false;
+	private String copyClipBoard = null;
 	public DrawController(AnchorPane drawArea) {
 		drawingArea = drawArea;
 	}
@@ -135,7 +136,6 @@ public class DrawController {
 		this.propertyController = propertyController;
 	}
 
-
 	public void addDrawArea() {
 		int index = list.size() - 1;
 		MyShape shape = (list.get(index));
@@ -146,7 +146,8 @@ public class DrawController {
 		if (shape != null) {
 			list.add(shape);
 			addDrawArea();
-			if(!isReStroing)saveChange();
+			if (!isReStroing)
+				saveChange();
 		}
 	}
 
@@ -160,7 +161,8 @@ public class DrawController {
 		if (shape != null) {
 			listLine.add(shape);
 			addLineDrawArea();
-			if(!isReStroing)saveChange();
+			if (!isReStroing)
+				saveChange();
 		}
 	}
 
@@ -204,11 +206,11 @@ public class DrawController {
 	}
 
 	public void clearAllOnEdit() {
-		if(!keyBoardManager.isCtrl()){
+		if (!keyBoardManager.isCtrl()) {
 			for (int i = 0; i < list.size(); i++) {
 				list.get(i).setISelected(false);
 				list.get(i).getEditer().disapper();
-				}
+			}
 			for (int i = 0; i < listLine.size(); i++) {
 				listLine.get(i).setSelected(false);
 			}
@@ -241,16 +243,50 @@ public class DrawController {
 		return shape;
 	}
 
-	public void reset(){
-		for(int i =0;i<list.size();i++){
+	public void copyManager() {
+		String code="";
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).isSelected()) {
+					code = code + list.get(i).toString();
+			}
+		}
+		for (int i = 0; i < listLine.size(); i++) {
+			if (listLine.get(i).isSelected()) {
+				code = code + listLine.get(i).toString();
+			}
+		}
+		copyClipBoard = code;
+	}
+	public void copy(){
+		String code =getCode();
+		if(copyClipBoard==null)return;
+		code = code + copyClipBoard;
+		isReStroing = true;
+		compiler.getTextArea().setText(code);
+		compiler.compireProduce(code);
+		isReStroing = false;
+		saveChange();
+
+	}
+	public String getCopyClipBoard() {
+		return copyClipBoard;
+	}
+
+	public void setCopyClipBoard(String copyClipBoard) {
+		this.copyClipBoard = copyClipBoard;
+	}
+
+	public void reset() {
+		for (int i = 0; i < list.size(); i++) {
 			list.get(i).delet();
 		}
-		for(int i =0;i<listLine.size();i++){
+		for (int i = 0; i < listLine.size(); i++) {
 			listLine.get(i).delete();
 		}
 		listLine.clear();
 		list.clear();
 	}
+
 	public KeyBoardManager getKeyBoardManager() {
 		return keyBoardManager;
 	}
@@ -266,28 +302,31 @@ public class DrawController {
 	public void setDrawingArea(AnchorPane drawingArea) {
 		this.drawingArea = drawingArea;
 	}
-	public void saveChange(){
+
+	public void saveChange() {
 		String code = getCode();
 		operationStack.addOperation(code);
 		System.out.println("i am hehe");
 		compiler.getTextArea().setText(code);
 	}
-	public String getCode(){
-		String code ="";
-		for(int i =0;i<list.size();i++){
+
+	public String getCode() {
+		String code = "";
+		for (int i = 0; i < list.size(); i++) {
 			code = code + list.get(i).toString();
 		}
-		for(int i = 0;i<listLine.size();i++){
-			code  = code + listLine.get(i).toString();
+		for (int i = 0; i < listLine.size(); i++) {
+			code = code + listLine.get(i).toString();
 		}
 		return code;
 	}
-	public void restore(){
-		isReStroing =true;
-		String code =operationStack.restoreOperation();
-		code  = operationStack.getTop();
+
+	public void restore() {
+		isReStroing = true;
+		String code = operationStack.restoreOperation();
+		code = operationStack.getTop();
 		compiler.getTextArea().setText(code);
 		compiler.compireProduce(code);
-		isReStroing=false;
+		isReStroing = false;
 	}
 }

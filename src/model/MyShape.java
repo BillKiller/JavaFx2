@@ -52,7 +52,7 @@ public abstract class MyShape {
 	protected Shape shape;
 	private Editer editer;
 	private Status status;
-	private Text text;
+	protected Text text;
 	protected DrawPoints drawPoints;
 	// 记录连接线
 	ArrayList<ConnectionInfo> connectionInfos=new ArrayList<>();

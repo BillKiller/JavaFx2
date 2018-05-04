@@ -34,9 +34,16 @@ public class KeyBoardManager {
 			}
 			if(e.getCode() == KeyCode.ESCAPE){
 				drawController.clearAllOnEdit();
+				drawController.setCopyClipBoard(null);
 			}
 			if(isCtrl&&e.getCode() == KeyCode.Z){
 				drawController.restore();
+			}
+			if(isCtrl&&e.getCode() == KeyCode.C){
+				drawController.copyManager();
+			}
+			if(isCtrl&&e.getCode() == KeyCode.V){
+				drawController.copy();
 			}
 		});
 	}
