@@ -65,7 +65,7 @@ public class RootLayoutController implements Initializable {
 	private ImageView CurvedRectangle;
 	//line
 	@FXML
-	private ImageView StraightLine;
+	private ImageView MyLine;
 	@FXML
 	private AnchorPane keyBoardPane;
 	@FXML
@@ -130,7 +130,7 @@ public class RootLayoutController implements Initializable {
 		InputRectangle.setCursor(Cursor.HAND);
 		Circular.setCursor(Cursor.HAND);
 		CurvedRectangle.setCursor(Cursor.HAND);
-		StraightLine.setCursor(Cursor.HAND);
+		MyLine.setCursor(Cursor.HAND);
 
 		drawController=new DrawController(drawingArea);
 		shapeFactory=new ShapeFactory(drawingArea,drawController);
@@ -150,9 +150,9 @@ public class RootLayoutController implements Initializable {
 		//myLine.getPane(drawingArea,drawController);
 
 	    propertyController = new PropertyController(textFieldX,textFieldY,textFieldW,textFieldH,textArea);
-	    System.out.println(button2);
 	    propertyController.setButton(button2);
 	    propertyController.edit();
+	    propertyController.setDrawController(drawController);
 	    drawController.setPropertyController(propertyController);
 	    drawController.setKeyBoardManager();
 		// ªÊÕº«¯”Ú Û±Íº‡Ã˝
@@ -200,7 +200,6 @@ public class RootLayoutController implements Initializable {
 					if (event.getTarget().getClass() == ImageView.class) {
 						ImageView nowImage = (ImageView) event.getTarget();
 						selectShape = nowImage.getId();
-
 					}
 				}
 			}

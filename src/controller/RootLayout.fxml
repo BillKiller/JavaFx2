@@ -65,7 +65,7 @@
         </VBox>
         <VBox fx:id="lineVBox" alignment="TOP_CENTER" prefHeight="824.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="60.0">
           <children>
-            <ImageView id="StraightLineImage" fx:id="StraightLine" fitHeight="134.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="MyLine" fx:id="MyLine" fitHeight="134.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../image/arrow.png" />
               </image>

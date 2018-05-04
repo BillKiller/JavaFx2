@@ -61,12 +61,12 @@ public class ShapeFactory {
 
 	public MyLine newMyLine(double sx, double sy, double ex, double ey) {
 		countShapeID++;
-		return new MyLine(sx, sy, ex, ey);
+		return new MyLine(sx, sy, ex, ey,countShapeID);
 	}
 
 	public MyLine newDogLegLine(double sx, double sy, double ex, double ey) {
 		countShapeID++;
-		return new BrokenLine(sx, sy, ex, ey);
+		return new BrokenLine(sx, sy, ex, ey,countShapeID);
 	}
 
 	public DrawController getDrawController() {
@@ -78,23 +78,21 @@ public class ShapeFactory {
 	}
 	// -----------下面主要用于生成
 
-	public void produce(String kind, double x, double y,double width,double height) {
+	public void produce(String kind, double x, double y,double width,double height,String text) {
+		if(kind == null)return;
 		kind = kind.replaceAll("Image", "");
 		if (kind.indexOf("Line") != -1) {
-			System.out.println("Line" + kind.indexOf("Line"));
 			produceMyLine(kind, x, y,width,height);
 		} else {
-			System.out.println("hehe"+kind);
-			productMyShape(kind, x, y,width,height);
+			MyShape shape = productMyShape(kind, x, y,width,height);
+			shape.getText().setText(text);
 		}
 	}
 	public void produce(String kind, double x, double y) {
 		kind = kind.replaceAll("Image", "");
 		if (kind.indexOf("Line") != -1) {
-			System.out.println("Line" + kind.indexOf("Line"));
 			produceMyLine(kind, x, y);
 		} else {
-			System.out.println("hehe"+kind);
 			productMyShape(kind, x, y);
 		}
 	}
@@ -166,7 +164,7 @@ public class ShapeFactory {
 	public MyLine produceMyLine(String kind, double x, double y) {
 		MyLine shape = null;
 		switch (kind) {
-		case "StraightLineImage":
+		case "MyLine":
 			shape = newMyLine(x, y, x, y + 100);
 			break;
 		case "BrokenLine":
@@ -180,8 +178,9 @@ public class ShapeFactory {
 	}
 	public MyLine produceMyLine(String kind, double x, double y,double ex, double ey) {
 		MyLine shape = null;
+		System.out.println(kind);
 		switch (kind) {
-		case "StraightLineImage":
+		case "MyLine":
 			shape = newMyLine(x, y, ex, ey);
 			break;
 		case "BrokenLine":

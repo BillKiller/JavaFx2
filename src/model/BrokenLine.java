@@ -1,6 +1,8 @@
 package model;
 
 import controller.DrawController;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Cursor;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
@@ -10,11 +12,16 @@ import javafx.scene.shape.Polygon;
 public class BrokenLine extends MyLine{
 	private Line xLine;
 	private Line yLine;
+	public BrokenLine(double startX, double startY, double endX, double endY,int factoryID) {
+		this(startX, startY, endX, endY);
+		this.factoryID = factoryID;
+	}
 	public BrokenLine(double startX, double startY, double endX, double endY) {
 		this.startX = startX;
 		this.startY = startY;
 		this.endX = endX;
 		this.endY = endY;
+		this.booleanProperty = new SimpleBooleanProperty(false);
 		super.line=new Line();
 		xLine=new Line(startX,startY,endX,startY);
 		yLine=new Line(endX,startY,endX,endY);
@@ -29,7 +36,12 @@ public class BrokenLine extends MyLine{
 		super.startListening();
 		addLineListening();
 	}
-
+	public void delete(){
+		drawingArea.getChildren().remove(xLine);
+		drawingArea.getChildren().remove(yLine);
+		drawingArea.getChildren().remove(circle);
+		drawingArea.getChildren().remove(triangle);
+	}
 	@Override
 	public void setShape() {
 
@@ -60,6 +72,8 @@ public class BrokenLine extends MyLine{
 		yLine.setStartY(startY);
 		yLine.setEndX(this.endX);
 		yLine.setEndY(this.endY);
+		isSelected = true;
+		booleanProperty.setValue(true);
 	}
 	@Override
 	public void getPane(AnchorPane drawingArea, DrawController drawController) {
@@ -100,8 +114,10 @@ public class BrokenLine extends MyLine{
 		});
 		xLine.setOnMouseReleased(e->{
 			this.setToTop();
+			booleanProperty.setValue(false);
 			if(headLinkShape!=null)headLinkShape.delConnectionInfo(this);
 			if(tailLinkShape!=null)tailLinkShape.delConnectionInfo(this);
+			booleanProperty.setValue(false);
 		});
 
 
@@ -126,6 +142,17 @@ public class BrokenLine extends MyLine{
 			this.setToTop();
 			if(headLinkShape!=null)headLinkShape.delConnectionInfo(this);
 			if(tailLinkShape!=null)tailLinkShape.delConnectionInfo(this);
+			booleanProperty.setValue(false);
+		});
+	}
+	public void changeListener() {
+		booleanProperty.addListener(e -> {
+			if (booleanProperty.getValue() == false) {
+				// 如果物体发生改变说明这个物体是当前工作的Shape，此时右侧的属性栏显示这个Shape的属性
+				drawController.getPropertyController().setWorkShape(this);
+				drawController.getPropertyController().update();
+				drawController.saveChange();
+			}
 		});
 	}
 }

@@ -216,6 +216,8 @@ public abstract class MyShape {
 		drawingArea.getChildren().remove(shape);
 		editer.delEditer(drawingArea);
 		drawPoints.delPoint(drawingArea);
+		drawingArea.getChildren().remove(text);
+		//drawController.saveChange();
 	}
 
 	public void getPane(AnchorPane drawingArea, DrawController drawController) {
@@ -312,7 +314,6 @@ public abstract class MyShape {
 				isSelected = false;
 				editer.disapper();
 			}
-			System.out.println(toString());
 		});
 	}
 
@@ -329,6 +330,7 @@ public abstract class MyShape {
 		if (isSelected)
 			editer.show(x, y);
 		update();
+
 	}
 
 	public void lineMove() {
@@ -460,7 +462,7 @@ public abstract class MyShape {
 
 	@Override
 	public String toString() {
-		DecimalFormat df = new DecimalFormat("#.00");
+		DecimalFormat df = new DecimalFormat("#.000");
 		String tostring = getClass().getSimpleName() + "(" + df.format(this.x) + "," + df.format(this.y) + "," + df.format(this.width) + ","
 				+ df.format(this.height) + ")" + "[ " + text.getText() + " ]" + " ;\n";
 		return tostring;

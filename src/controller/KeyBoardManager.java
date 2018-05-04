@@ -35,6 +35,9 @@ public class KeyBoardManager {
 			if(e.getCode() == KeyCode.ESCAPE){
 				drawController.clearAllOnEdit();
 			}
+			if(isCtrl&&e.getCode() == KeyCode.Z){
+				drawController.restore();
+			}
 		});
 	}
 	public boolean isCtrl() {

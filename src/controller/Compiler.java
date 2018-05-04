@@ -18,6 +18,7 @@ public class Compiler {
 	}
 	public Double[] getRound(String shape){
 		Double []list=new Double[4];
+		for(int i =0;i<list.length;i++)list[i] = new Double("0");
 		Pattern pattern = Pattern.compile("(?<=\\()[^\\)]+");
 		Matcher matcher = pattern.matcher(shape);
 		if(matcher.find()){
@@ -25,7 +26,6 @@ public class Compiler {
 			String tt[]=temp.split(",");
 			for(int i =0;i<tt.length;i++){
 				list[i] = Double.valueOf(tt[i]);
-//				System.out.println(list[i]);
 			}
 		}
 		return list;
@@ -53,15 +53,17 @@ public class Compiler {
 		return item;
 	}
 	public void compireProduce(String code){
-		this.code = code;
+		this.code = code.trim();
 		drawController.reset();
 		String items[]=getItem();
+		this.code = code.replaceAll("\n|\r", "");
 		for(int i =0;i<items.length;i++){
 			items[i]=items[i].trim();
-
 			if(items[i]==null&&items[i].length()==0)continue;
 			Double list[] = getRound(items[i]);
-			this.shapeFactory.produce(getShapeType(items[i]),list[0],list[1]);
+			String text = getText(items[i]);
+			shapeFactory.produce(getShapeType(items[i]),list[0],list[1],list[2],list[3],text);
+
 		}
 	}
 	public ShapeFactory getShapeFactory() {

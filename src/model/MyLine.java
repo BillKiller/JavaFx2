@@ -1,6 +1,10 @@
 package model;
 
+import java.text.DecimalFormat;
+
 import controller.DrawController;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Cursor;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -9,6 +13,38 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 public class MyLine extends Line {
+
+
+	public double getSX() {
+		return startX;
+	}
+	public void setSX(double startX) {
+		this.startX = startX;
+	}
+	public double getSY() {
+		return startY;
+	}
+	public void setSY(double startY) {
+		this.startY = startY;
+	}
+	public double getEX() {
+		return endX;
+	}
+	public void setEX(double endX) {
+		this.endX = endX;
+	}
+	public double getEY() {
+		return endY;
+	}
+	public void setEY(double endY) {
+		this.endY = endY;
+	}
+	public boolean isSelected() {
+		return isSelected;
+	}
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
+	}
 	// 图形的工厂编号
 	protected int factoryID;
 	// 所在区域及其管理者
@@ -30,13 +66,20 @@ public class MyLine extends Line {
 	protected MyShape tailLinkShape;
 	// 状态变量
 	protected boolean isOnTheLine = false;
+	protected boolean isSelected;
+	protected BooleanProperty booleanProperty;
 
 	public MyLine() {
-
+		this.booleanProperty = new SimpleBooleanProperty(false);
+	}
+	public MyLine(double startX, double startY, double endX, double endY,int factoryID) {
+		this(startX,startY,endX,endY);
+		this.factoryID=factoryID;
 	}
 	public MyLine(double startX, double startY, double endX, double endY) {
 		line = new Line(startX, startY, endX, endY);
 		circle = new Circle();
+		this.booleanProperty = new SimpleBooleanProperty(false);
 		this.startX = startX;
 		this.startY = startY;
 		this.endX = endX;
@@ -64,6 +107,13 @@ public class MyLine extends Line {
 	public Polygon getTriangle() {
 		return this.triangle;
 	}
+	public BooleanProperty getBooleanProperty() {
+		return booleanProperty;
+	}
+
+	public void setBooleanProperty(BooleanProperty booleanProperty) {
+		this.booleanProperty = booleanProperty;
+	}
 	public void setShape() {
 		double dx = endX - startX;
 		double dy = endY - startY;
@@ -88,6 +138,9 @@ public class MyLine extends Line {
 		line.setStartY(startY);
 		line.setEndX(this.endX);
 		line.setEndY(this.endY);
+		isSelected = true;
+		booleanProperty.setValue(true);
+
 	}
 //	public void setToShape(Double[] list){
 //
@@ -132,7 +185,18 @@ public class MyLine extends Line {
 		drawingArea.getChildren().remove(circle);
 		drawingArea.getChildren().remove(triangle);
 	}
+	public void changeListener() {
+		booleanProperty.addListener(e -> {
+			if (booleanProperty.getValue() == false) {
+				// 如果物体发生改变说明这个物体是当前工作的Shape，此时右侧的属性栏显示这个Shape的属性
+				drawController.getPropertyController().setWorkShape(this);
+				drawController.getPropertyController().update();
+				drawController.saveChange();
+			}
+		});
+	}
 	protected void startListening() {
+		changeListener();
 		triangle.setCursor(Cursor.HAND);
 		circle.setCursor(Cursor.HAND);
 		line.setCursor(Cursor.MOVE);
@@ -145,6 +209,7 @@ public class MyLine extends Line {
 			this.setToTop();
 			if(tailLinkShape!=null)tailLinkShape.delConnectionInfo(this);
 			drawController.connect(e.getX(),e.getY(),"end",this);
+			booleanProperty.setValue(false);
 		});
 		circle.setOnMouseDragged(e -> {
 			drawController.checkDistanceToPoints(e.getX(), e.getY());
@@ -152,6 +217,7 @@ public class MyLine extends Line {
 		});
 		circle.setOnMouseReleased(e -> {
 			this.setToTop();
+			booleanProperty.setValue(false);
 			if(headLinkShape!=null)headLinkShape.delConnectionInfo(this);
 			drawController.connect(e.getX(),e.getY(),"start",this);
 		});
@@ -176,11 +242,25 @@ public class MyLine extends Line {
 			lastX = e.getX();
 			lastY = e.getY();
 			move(dx, dy);
+			isSelected = false;
 		});
 		line.setOnMouseReleased(e->{
 			this.setToTop();
 			if(headLinkShape!=null)headLinkShape.delConnectionInfo(this);
 			if(tailLinkShape!=null)tailLinkShape.delConnectionInfo(this);
+			if (isSelected == false) {
+				drawController.clearAllOnEdit();
+				isSelected = true;
+			} else {
+				isSelected = false;
+			}
 		});
+	}
+	@Override
+	public String toString() {
+		DecimalFormat df = new DecimalFormat("#.00");
+		String tostring = getClass().getSimpleName() + "(" + df.format(this.startX) + "," + df.format(startY) + "," + df.format(endX) + ","
+				+ df.format(endY) + ")" + "[ " +" " + " ]" + " ;\n";
+		return tostring;
 	}
 }

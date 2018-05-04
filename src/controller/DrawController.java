@@ -12,6 +12,9 @@ import java.util.function.ObjDoubleConsumer;
 import javax.swing.plaf.synth.SynthStyle;
 import javax.xml.bind.annotation.adapters.NormalizedStringAdapter;
 
+import org.omg.IOP.Codec;
+import org.w3c.dom.ls.LSException;
+
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -33,7 +36,8 @@ public class DrawController {
 	private AnchorPane drawingArea = null;
 	private ArrayList<MyShape> list = new ArrayList<>();
 	private ArrayList<MyLine> listLine = new ArrayList<MyLine>();
-	private MyShape workShape;
+	private Object workShape;
+	private OperationStack operationStack = new OperationStack();
 	private KeyBoardManager keyBoardManager;
 	// 小管家
 	private PropertyController propertyController;
@@ -44,6 +48,9 @@ public class DrawController {
 	// 连接点显示的最大距离
 	private double maxDistance = 50;
 	private double isChange ;
+
+	//
+	private boolean isReStroing=false;
 	public DrawController(AnchorPane drawArea) {
 		drawingArea = drawArea;
 	}
@@ -139,6 +146,7 @@ public class DrawController {
 		if (shape != null) {
 			list.add(shape);
 			addDrawArea();
+			if(!isReStroing)saveChange();
 		}
 	}
 
@@ -152,6 +160,7 @@ public class DrawController {
 		if (shape != null) {
 			listLine.add(shape);
 			addLineDrawArea();
+			if(!isReStroing)saveChange();
 		}
 	}
 
@@ -177,6 +186,21 @@ public class DrawController {
 				break;
 			}
 		}
+		while (true) {
+			remain = false;
+			for (int i = 0; i < listLine.size(); i++) {
+				if (listLine.get(i).isSelected()) {
+					listLine.get(i).delete();
+					listLine.remove(i);
+					remain = true;
+					break;
+				}
+			}
+			if (!remain) {
+				break;
+			}
+		}
+		saveChange();
 	}
 
 	public void clearAllOnEdit() {
@@ -184,16 +208,29 @@ public class DrawController {
 			for (int i = 0; i < list.size(); i++) {
 				list.get(i).setISelected(false);
 				list.get(i).getEditer().disapper();
+				}
+			for (int i = 0; i < listLine.size(); i++) {
+				listLine.get(i).setSelected(false);
 			}
 		}
 	}
 
-	public MyShape workingShape() {
-		MyShape shape = null;
+	public Object workingShape() {
+		Object shape = null;
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).isSelected()) {
 				if (shape == null) {
 					shape = list.get(i);
+				} else {
+					shape = null;
+					break;
+				}
+			}
+		}
+		for (int i = 0; i < listLine.size(); i++) {
+			if (listLine.get(i).isSelected()) {
+				if (shape == null) {
+					shape = listLine.get(i);
 				} else {
 					shape = null;
 					break;
@@ -208,6 +245,10 @@ public class DrawController {
 		for(int i =0;i<list.size();i++){
 			list.get(i).delet();
 		}
+		for(int i =0;i<listLine.size();i++){
+			listLine.get(i).delete();
+		}
+		listLine.clear();
 		list.clear();
 	}
 	public KeyBoardManager getKeyBoardManager() {
@@ -226,15 +267,27 @@ public class DrawController {
 		this.drawingArea = drawingArea;
 	}
 	public void saveChange(){
-		compiler.getTextArea().setText(getCode());
-		System.out.println("compire"+compiler.getTextArea().getText());
+		String code = getCode();
+		operationStack.addOperation(code);
+		System.out.println("i am hehe");
+		compiler.getTextArea().setText(code);
 	}
 	public String getCode(){
 		String code ="";
 		for(int i =0;i<list.size();i++){
 			code = code + list.get(i).toString();
 		}
+		for(int i = 0;i<listLine.size();i++){
+			code  = code + listLine.get(i).toString();
+		}
 		return code;
 	}
-
+	public void restore(){
+		isReStroing =true;
+		String code =operationStack.restoreOperation();
+		code  = operationStack.getTop();
+		compiler.getTextArea().setText(code);
+		compiler.compireProduce(code);
+		isReStroing=false;
+	}
 }
