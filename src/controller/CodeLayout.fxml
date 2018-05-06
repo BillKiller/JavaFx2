@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<BorderPane fx:id="codeLayout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="文件">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="格式">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="帮助">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <bottom>
+      <Pane>
+         <children>
+            <Button mnemonicParsing="false" prefHeight="48.0" prefWidth="1200.0" text="Chage the form" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </bottom>
+   <right>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="868.0" prefWidth="237.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="130.0" fitWidth="196.0" layoutX="24.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../image/prepare.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="29.0" layoutY="206.0" prefHeight="20.0" prefWidth="26.0" text="X :" />
+            <TextField layoutX="58.0" layoutY="204.0" prefHeight="21.0" prefWidth="61.0" />
+            <Label layoutX="132.0" layoutY="206.0" prefHeight="20.0" prefWidth="26.0" text="Y :" />
+            <TextField layoutX="158.0" layoutY="204.0" prefHeight="21.0" prefWidth="61.0" />
+            <Label layoutX="29.0" layoutY="240.0" prefHeight="20.0" prefWidth="26.0" text="W :" />
+            <TextField layoutX="58.0" layoutY="239.0" prefHeight="21.0" prefWidth="61.0" />
+            <Label layoutX="132.0" layoutY="240.0" prefHeight="20.0" prefWidth="26.0" text="H :" />
+            <TextField layoutX="158.0" layoutY="239.0" prefHeight="21.0" prefWidth="61.0" />
+            <Label layoutX="30.0" layoutY="281.0" prefHeight="0.0" prefWidth="47.0" text="Color :" />
+            <ColorPicker layoutX="92.0" layoutY="276.0" prefHeight="23.0" prefWidth="128.0" />
+            <Label layoutX="30.0" layoutY="324.0" prefHeight="0.0" prefWidth="47.0" text="Type :" />
+            <ChoiceBox layoutX="92.0" layoutY="319.0" prefHeight="23.0" prefWidth="128.0" />
+            <Label layoutX="30.0" layoutY="369.0" prefHeight="0.0" prefWidth="47.0" text="Text :" />
+            <TextArea layoutX="25.0" layoutY="390.0" prefHeight="173.0" prefWidth="188.0" promptText="Describe your graphics" />
+            <Button layoutX="170.0" layoutY="582.0" mnemonicParsing="false" text="修改" />
+         </children>
+      </AnchorPane>
+   </right>
+   <center>
+      <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Describe your code" />
+            <ScrollPane prefHeight="673.0" prefWidth="523.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="740.0" prefWidth="484.0" />
+              </content>
+            </ScrollPane>
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>
