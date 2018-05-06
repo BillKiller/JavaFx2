@@ -9,9 +9,9 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="rootLayout" prefHeight="900.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.RootLayoutController">
+<BorderPane fx:id="rootLayout" prefHeight="900.0" prefWidth="1200.0" styleClass="background" stylesheets="@../css/MyCSS.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RootLayoutController">
   <center>
-    <ScrollPane prefHeight="868.0" prefWidth="786.0" BorderPane.alignment="CENTER">
+    <ScrollPane prefHeight="868.0" prefWidth="786.0" styleClass="drawingarea" stylesheets="@../css/MyCSS.css" BorderPane.alignment="CENTER">
       <content>
         <AnchorPane fx:id="drawingArea" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1000.0">
           <children>
@@ -27,7 +27,7 @@
     </ScrollPane>
   </center>
   <left>
-    <AnchorPane fx:id="shapeArea" blendMode="SRC_ATOP" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+    <AnchorPane fx:id="shapeArea" blendMode="SRC_ATOP" prefHeight="200.0" prefWidth="200.0" styleClass="shapeclass" stylesheets="@../css/MyCSS.css" BorderPane.alignment="CENTER">
       <children>
         <VBox fx:id="shapeVBox" alignment="TOP_CENTER" prefHeight="809.0" prefWidth="201.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
           <children>
@@ -77,7 +77,7 @@
             </ImageView>
           </children>
         </VBox>
-        <Button fx:id="shapeORLine" mnemonicParsing="false" onAction="#changeShapeORLine" prefHeight="38.0" prefWidth="201.0" text="Shape" textAlignment="CENTER">
+        <Button fx:id="shapeORLine" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#changeShapeORLine" prefHeight="38.0" prefWidth="201.0" styleClass="shapeorline" stylesheets="@../css/MyCSS.css" text="Shape" textAlignment="CENTER" textOverrun="CLIP">
           <font>
             <Font name="System Bold Italic" size="24.0" />
           </font>
@@ -86,36 +86,28 @@
     </AnchorPane>
   </left>
   <right>
-    <AnchorPane prefHeight="868.0" prefWidth="237.0" BorderPane.alignment="CENTER">
+    <AnchorPane prefHeight="868.0" prefWidth="237.0" styleClass="attribute" stylesheets="@../css/MyCSS.css" BorderPane.alignment="CENTER">
       <children>
-        <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="37.0">
-          <children>
-            <ImageView fitHeight="100.69502177896287" fitWidth="147.00003051757812" pickOnBounds="true" preserveRatio="true">
-              <image>
-                <Image url="@../../image/prepare.png" />
-              </image>
-            </ImageView>
-            <HBox prefHeight="24.0" prefWidth="188.0" />
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" />
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" />
-            <VBox prefHeight="200.0" prefWidth="176.0" spacing="100.0" />
-          </children>
-        </VBox>
-        <Label layoutX="30.0" layoutY="394.0" text="Text :" />
-        <TextArea fx:id="textArea" layoutX="27.0" layoutY="435.0" prefHeight="233.0" prefWidth="188.0" promptText="Describe your graphics" />
-        <ChoiceBox layoutX="98.0" layoutY="335.0" prefHeight="23.0" prefWidth="128.0" />
-        <Label layoutX="29.0" layoutY="339.0" prefHeight="20.0" prefWidth="48.0" text="Type  " />
-        <Label layoutX="30.0" layoutY="281.0" prefHeight="0.0" prefWidth="47.0" text="Color" />
-        <ChoiceBox layoutX="98.0" layoutY="277.0" prefHeight="23.0" prefWidth="128.0" />
+      <ImageView fitHeight="123.0" fitWidth="174.0" layoutX="32.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+          <Image url="@../../image/prepare.png" />
+        </image>
+      </ImageView>
+        <Label layoutX="29.0" layoutY="355.0" text="Text :" />
+        <TextArea fx:id="textArea" layoutX="25.0" layoutY="388.0" prefHeight="140.0" prefWidth="188.0" promptText="Describe your graphics" />
+        <Label layoutX="30.0" layoutY="317.0" prefHeight="20.0" prefWidth="48.0" text="Type  :" />
+        <ChoiceBox layoutX="92.0" layoutY="314.0" prefHeight="23.0" prefWidth="128.0" />
+        <Label layoutX="30.0" layoutY="281.0" prefHeight="0.0" prefWidth="47.0" text="Color :" />
+            <ColorPicker layoutX="91.0" layoutY="277.0" prefHeight="23.0" prefWidth="130.0" />
         <Label layoutX="24.0" layoutY="240.0" prefHeight="20.0" prefWidth="44.0" text="W :" />
         <TextField fx:id="textFieldH" layoutX="159.0" layoutY="237.0" prefHeight="23.0" prefWidth="61.0" />
-        <Label layoutX="29.0" layoutY="206.0" prefHeight="20.0" prefWidth="26.0" text="X : " />
-        <TextField fx:id="textFieldY" layoutX="158.0" layoutY="205.0" prefHeight="23.0" prefWidth="61.0" />
-        <TextField fx:id="textFieldX" layoutX="56.0" layoutY="207.0" prefHeight="21.0" prefWidth="61.0" />
+        <Label layoutX="25.0" layoutY="210.0" prefHeight="20.0" prefWidth="26.0" text="X : " />
+        <TextField fx:id="textFieldY" layoutX="159.0" layoutY="206.0" prefHeight="23.0" prefWidth="61.0" />
+        <TextField fx:id="textFieldX" layoutX="56.0" layoutY="207.0" prefHeight="25.0" prefWidth="64.0" />
         <Label layoutX="124.0" layoutY="208.0" prefHeight="20.0" prefWidth="32.0" text=" Y :  " />
         <Label layoutX="127.0" layoutY="240.0" prefHeight="20.0" prefWidth="44.0" text="H :" />
         <TextField fx:id="textFieldW" layoutX="58.0" layoutY="239.0" prefHeight="23.0" prefWidth="61.0" />
-        <Button fx:id="button2" layoutX="149.0" layoutY="696.0" mnemonicParsing="false" text="修改" />
+        <Button fx:id="button2" layoutX="156.0" layoutY="542.0" mnemonicParsing="false" text="修改" />
       </children>
     </AnchorPane>
   </right>
