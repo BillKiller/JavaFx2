@@ -30,18 +30,21 @@ public class MainApp extends Application {
     }
 
     /**
-     * ¼ÓÔØRootLayout.fxml
+     * åŠ è½½RootLayout.fxml
      */
     public void initRootLayout() {
         try {
-        	//½«RootLayout.fxml¼ÓÔØµ½rootLayout³ÉÔ±±äÁ¿ÖÐ
+	//å°†CSSæ–‡ä»¶åŠ è½½åˆ°fxmlæ–‡ä»¶ä¸­
+	Application.setUserAgentStylesheet(getClass().getResource("/css/MyCSS.css")
+                    .toExternalForm());
+        	//å°†RootLayout.fxmlåŠ è½½åˆ°rootLayoutæˆå‘˜å˜é‡ä¸­
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("/controller/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
             //debug	
 //            MyLine myLine = new MyLine(500, 500,600,700);
 //            myLine.getPane(rootLayout);
-            //ÓÃrootLayout³õÊ¼»¯Ò»¸öscene£¬·Åµ½stageÉÏÕ¹Ê¾
+            //ç”¨rootLayoutåˆå§‹åŒ–ä¸€ä¸ªsceneï¼Œæ”¾åˆ°stageä¸Šå±•ç¤º
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -52,11 +55,11 @@ public class MainApp extends Application {
 
     public void initAttributeBox(){
     	try {
-        	//½«RootLayout.fxml¼ÓÔØµ½rootLayout³ÉÔ±±äÁ¿ÖÐ
+        	//å°†RootLayout.fxmlåŠ è½½åˆ°rootLayoutæˆå‘˜å˜é‡ä¸­
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("/controller/RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
-            //ÓÃrootLayout³õÊ¼»¯Ò»¸öscene£¬·Åµ½stageÉÏÕ¹Ê¾
+            //ç”¨rootLayoutåˆå§‹åŒ–ä¸€ä¸ªsceneï¼Œæ”¾åˆ°stageä¸Šå±•ç¤º
             Scene scene = new Scene(rootLayout);
             ((ScrollPane)rootLayout.getCenter()).setOnKeyPressed(e->{
          	   System.out.println("as123");
